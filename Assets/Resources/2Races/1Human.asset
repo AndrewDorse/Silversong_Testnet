@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0507139928b9be84da871d9dd97de75c, type: 3}
+  m_Name: 1Human
+  m_EditorClassIdentifier: 
+  race: 0
+  subraces:
+  - {fileID: 11400000, guid: e4b1ad25ac31dc84995cfdb9ff587da1, type: 2}
+  - {fileID: 11400000, guid: 80f69815cb0da60499d4ed87d1622822, type: 2}
+  - {fileID: 11400000, guid: 6e07adc5d9a6f2b418414cce4cfdf651, type: 2}
+  - {fileID: 11400000, guid: 3f1f1b7bcc7115a4193b6ba57dfc4b65, type: 2}
+  - {fileID: 11400000, guid: c7f33eaec45002048ba36f8744fbe15d, type: 2}
+  - {fileID: 11400000, guid: 08cf3f4341d39ad4eb877215193bf6d2, type: 2}
+  - {fileID: 11400000, guid: 31b3025ccdd28254cb9fdd297a15e4f4, type: 2}
+  - {fileID: 11400000, guid: 4805ad7ca08a3bf4f961999ff36df760, type: 2}
+  - {fileID: 11400000, guid: 8ceedfddd07d0774fb24498427e18245, type: 2}
+  - {fileID: 11400000, guid: 6f599989f2f77cb43ac67a94df180cde, type: 2}
+  icon: {fileID: 21300000, guid: 5f020d670dcd1aa45a1d2fa51f608d62, type: 3}
+  raceName: Human
+  description: 

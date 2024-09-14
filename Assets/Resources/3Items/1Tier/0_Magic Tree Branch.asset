@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4516726eb0d371f44a198c3c72fd6b15, type: 3}
+  m_Name: 0_Magic Tree Branch
+  m_EditorClassIdentifier: 
+  Id: 0
+  Icon: {fileID: 21300000, guid: 0cb58e17409b2c548bab4903f6f19eff, type: 3}
+  Name: Magic Tree Branch
+  Description: This enigmatic item pulses with latent power, its true potential shrouded
+    in mystery. Legends speak of its significance, hinting at untold riches or perilous
+    quests ahead. As adventurers grasp its weight, they feel the call to embark on
+    a journey, where destiny awaits and legends are forged anew.
+  Rarity: 0
+  Cost: 1
+  Tier: 1
+  Stats:
+  - stat: 4
+    value: 1
+  - stat: 6
+    value: 1
+  - stat: 8
+    value: 1
+  - stat: 10
+    value: 1
+  - stat: 12
+    value: 1
+  - stat: 14
+    value: 1

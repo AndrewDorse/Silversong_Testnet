@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b59f2180de0e3499c88b3054788dc6, type: 3}
+  m_Name: 1Human01Common
+  m_EditorClassIdentifier: 
+  id: 0
+  subraceName: 
+  subraceSecondName: 
+  description: 
+  faceMesh: {fileID: -1869800452688540721, guid: 3cd536afea3240a4b893841807ae340f,
+    type: 3}
+  hairMesh: {fileID: -2378348500580139101, guid: 3cd536afea3240a4b893841807ae340f,
+    type: 3}
+  halfHairMesh: {fileID: 6363440300386294975, guid: 3cd536afea3240a4b893841807ae340f,
+    type: 3}
+  icon: {fileID: 21300000, guid: 5f020d670dcd1aa45a1d2fa51f608d62, type: 3}
+  scale: {x: 1, y: 1, z: 1}
+  stepOffset: 0

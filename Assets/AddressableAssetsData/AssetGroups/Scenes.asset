@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Scenes
+  m_EditorClassIdentifier: 
+  m_GroupName: Scenes
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 3e5bdcd745ab8404e95bda1a3e3177bd
+  m_SerializeEntries:
+  - m_GUID: 20036f27354e5f04888e8ee06013ca1b
+    m_Address: ForestGlade_2_VIolet
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scenes
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 7f4dbd51d9ce9c747855e94a2f515891, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 34f0e5604f53f554e900ae2909c429d3, type: 2}
+    - {fileID: 11400000, guid: ceeba4ef1fcb4994793a7f959145a0d9, type: 2}

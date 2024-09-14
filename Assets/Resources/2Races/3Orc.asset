@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0507139928b9be84da871d9dd97de75c, type: 3}
+  m_Name: 3Orc
+  m_EditorClassIdentifier: 
+  id: 2
+  race: 2
+  subraces:
+  - {fileID: 11400000, guid: f7240286f59060642887ed19396f30cf, type: 2}
+  - {fileID: 11400000, guid: a9890bd56deceae4ebb9d43098b00cb0, type: 2}
+  - {fileID: 11400000, guid: fab9c006672267d4193a891a962fbb4c, type: 2}
+  - {fileID: 11400000, guid: 9bdd5c6535687f9498f7c10085e87f0e, type: 2}
+  - {fileID: 11400000, guid: 4b244ef55afc11346b6ce4d2386ad97c, type: 2}
+  - {fileID: 11400000, guid: f0ca721de03f9b141b3f278533e45b39, type: 2}
+  - {fileID: 11400000, guid: ec8d4ffe7f597ae4a95c9a2bd699bd92, type: 2}
+  - {fileID: 11400000, guid: ca88d21c2fedcc949a34103916cd763e, type: 2}
+  - {fileID: 11400000, guid: 7c59573262310b749a9cc22ccd20bd58, type: 2}
+  - {fileID: 11400000, guid: 577df8422c3224b409ac84b6c4b6abfe, type: 2}
+  icon: {fileID: 21300000, guid: 69d2300a9720e2847b95c4994520010f, type: 3}
+  raceName: Human
+  description: 

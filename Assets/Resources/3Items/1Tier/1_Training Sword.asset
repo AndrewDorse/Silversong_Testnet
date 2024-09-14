@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4516726eb0d371f44a198c3c72fd6b15, type: 3}
+  m_Name: 1_Training Sword
+  m_EditorClassIdentifier: 
+  Id: 1
+  Icon: {fileID: 21300000, guid: 1f95a6b89180c834ea9b550945d05745, type: 3}
+  Name: Training Sword
+  Description: This enigmatic item pulses with latent power, its true potential shrouded
+    in mystery. Legends speak of its significance, hinting at untold riches or perilous
+    quests ahead. As adventurers grasp its weight, they feel the call to embark on
+    a journey, where destiny awaits and legends are forged anew.
+  Rarity: 0
+  Cost: 3
+  Tier: 1
+  Stats:
+  - stat: 25
+    value: 3
+  - stat: 14
+    value: -1
