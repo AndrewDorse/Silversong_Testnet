@@ -44,7 +44,7 @@ namespace Silversong.Data.Providers
                 SortSpell(_abilities[i]);
             }
 
-           // ResetCommonSpells();
+            ResetCommonSpells();
 #endif
         }
 

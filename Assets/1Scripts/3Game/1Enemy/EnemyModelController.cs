@@ -23,12 +23,18 @@ public class EnemyModelController : MonoBehaviour
 
     public void AttackAnimation()
     {
-        if (_enemy == null) { if (transform.parent != null) _enemy = transform.parent.GetComponent<Enemy>(); }
+        if (_enemy == null) 
+        {
+            if (transform.parent != null)
+            {
+                _enemy = transform.parent.GetComponent<Enemy>();
+            }
+        }
 
         if (_enemy != null)
         {
             //_enemy.CheckPassive(EnumsHandler.PassiveTrigger.attackAnimation);
-           // _enemy.Hit();
+            _enemy.Hit();
         }
     }
 

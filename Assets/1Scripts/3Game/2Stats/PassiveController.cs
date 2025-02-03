@@ -34,7 +34,7 @@ public class PassiveController
 
         foreach (PassiveAbilityDataSlot slot in passives)
         {
-            PassiveAbility passiveAbility = InfoProvider.instance.GetPassive(slot.Id);
+            PassiveAbility passiveAbility = DataProvider.instance.GetPassive(slot.Id);
 
 
             if (passiveAbility.Type == Enums.PassiveTypes.buffByTrigger ||

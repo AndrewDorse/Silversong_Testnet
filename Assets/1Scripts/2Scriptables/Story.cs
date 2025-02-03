@@ -7,23 +7,26 @@ using UnityEngine;
 public class Story : ScriptableObject
 {
     public int Id = 0;
-    public string Text;
-    public Sprite Icon;
-    public bool ShowRewards = true;
+    
 
-    public StoryOption[] Options;
+    public StoryStep StartingStep;
+
+
 
 }
-
-
+ 
 
 [System.Serializable]
-public class StoryOption
+public class StoryStepOption
 {
     public string Text;
     public Sprite Icon;
 
+    public bool ShowRewards = true;
+
     public Enums.Tag RequiredTag;
+
+    public StoryStep NextStoryStep;
 
     public RewardSlot[] RewardSlot;
 
@@ -39,8 +42,7 @@ public class RewardSlot
     public Enums.RewardType RewardType;
     public Enums.RewardReciever RecieverType;
     public Enums.Tag RequiredTag;
-    public int Value;
-
+    public int Value; 
 }
 
 

@@ -19,8 +19,8 @@ public class Buff : BaseItem
 
     [Tooltip("Effect Prefabs")]
 
-    public UnityEngine.AddressableAssets.AssetReferenceGameObject effectLoop;
-    public UnityEngine.AddressableAssets.AssetReferenceGameObject effectOnStart;
+    public GameObject effectLoop;
+    public GameObject effectOnStart;
 
 
     [Tooltip("Data By Level")]

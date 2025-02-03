@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: Story Provider Data
   m_EditorClassIdentifier: 
   _stories:
-  - {fileID: 11400000, guid: 1a553e808acda984184b1e31f9fd52bc, type: 2}
   - {fileID: 11400000, guid: bf7de43521963864cae57571b619d5a8, type: 2}

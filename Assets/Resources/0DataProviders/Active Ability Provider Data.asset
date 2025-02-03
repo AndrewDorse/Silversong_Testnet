@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: Active Ability Provider Data
   m_EditorClassIdentifier: 
   _abilities:
+  - {fileID: 11400000, guid: 52771edb4b57468479dd26fd3c2237a9, type: 2}
+  - {fileID: 11400000, guid: 244fdff6f70eab14cb1d8ced67b34343, type: 2}
+  - {fileID: 11400000, guid: 84c85a57ea585e24290c70e2d58b47d6, type: 2}
   - {fileID: 11400000, guid: 3fdbf842350cbde439990e096e5427d9, type: 2}
-  - {fileID: 11400000, guid: 798f0608aa44fd34b849553d6349830d, type: 2}
   _schoolAbilities:
+  - School: 0
+    Ids: 000000000100000002000000
   - School: 1
-    Ids: 0000000001000000
-  _commonAbilitiesIds: 
+    Ids: 03000000
+  _commonAbilitiesIds: 00000000010000000200000003000000

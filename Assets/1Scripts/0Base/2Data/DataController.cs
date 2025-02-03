@@ -9,16 +9,24 @@ public  class DataController : MonoBehaviour // remove mono TODO ??
 {
     public static DataController instance;
 
+   
+
+    
+
+    public static PlayerData LocalPlayerData => GetMyPlayerData();
+    public static LevelSlot LevelSlot => GetLevelSlot();
+    public static Enums.ServerGameStage LocalGlobalStage = Enums.ServerGameStage.creatingHeroes;
+    public static List<PlayerData> AllPlayerData => instance._allPlayersData;
+
+
+
+
     public LocalData LocalData;
     public GameData GameData;
 
 
+
     [SerializeField] private List<PlayerData> _allPlayersData;
-
-    public static PlayerData LocalPlayerData => GetMyPlayerData();
-    public static LevelSlot LevelSlot => GetLevelSlot();
-
-
 
     private void Awake()
     {
@@ -88,14 +96,28 @@ public  class DataController : MonoBehaviour // remove mono TODO ??
 
                 return;
             }
-        }
-
-
+        } 
 
         _allPlayersData.Add(new PlayerData(newPlayer));
 
         EventsProvider.OnPlayersDataChanged?.Invoke(_allPlayersData);
     }
+
+    public void TryAddBot()
+    {
+        PlayerData newAiPlayer = new PlayerData("bot1", "AndrewTheGreat");
+
+        newAiPlayer.heroData.SubraceId = 1;
+        newAiPlayer.heroData.classId = Random.Range(0,1);
+
+        newAiPlayer.ready = true;
+
+        _allPlayersData.Add(newAiPlayer);
+        AiController.AddAiPlayer(newAiPlayer);
+
+        EventsProvider.OnPlayersDataChanged?.Invoke(_allPlayersData);
+    }
+
 
     public void TryToRemovePlayer(Player player)
     {
@@ -160,7 +182,13 @@ public  class DataController : MonoBehaviour // remove mono TODO ??
 
     public void AskToUpdatePlayersData()
     {
-        EventsProvider.OnPlayersDataChanged?.Invoke(_allPlayersData);
+        if (_allPlayersData != null)
+        {
+            if (_allPlayersData.Count > 0)
+            {
+                EventsProvider.OnPlayersDataChanged?.Invoke(_allPlayersData);
+            }
+        }
     }
 
     private void OnLocalPlayerHeroDataChanged(HeroData heroData)
@@ -196,6 +224,15 @@ public  class DataController : MonoBehaviour // remove mono TODO ??
     public void SetLocalPlayerReady(bool value = true)
     {
         LocalPlayerData.ready = value;
+
+        foreach (PlayerData data in _allPlayersData)
+        {
+            if (data.ai == true)
+            {
+                data.ready = value;
+            }
+        }
+
         EventsProvider.OnPlayersDataChanged?.Invoke(_allPlayersData);
     }
 
@@ -204,6 +241,11 @@ public  class DataController : MonoBehaviour // remove mono TODO ??
         foreach (PlayerData data in _allPlayersData)
         {
             if (data.userId == userId)
+            {
+                data.ready = value;
+            }
+
+            if (data.ai == true)
             {
                 data.ready = value;
             }
@@ -218,11 +260,16 @@ public  class DataController : MonoBehaviour // remove mono TODO ??
         string userId = data.UserId;
         int choiceId = data.ChoiceID;
 
-        foreach (PlayerData players in _allPlayersData)
+        foreach (PlayerData player in _allPlayersData)
         {
-            if (players.userId == userId)
+            if (player.userId == userId)
             {
-                players.StoryChoice = choiceId;
+                player.StoryChoice = choiceId;  
+            }
+
+            if (PhotonNetwork.IsMasterClient && player.ai == true)
+            {
+                player.StoryChoice = choiceId;
             }
         }
 
@@ -367,7 +414,7 @@ public  class DataController : MonoBehaviour // remove mono TODO ??
 
     public void AddActiveAbility(int id)
     {
-        int pointsCost = InfoProvider.instance.GetAbility(id).LevelInfo[GetActiveAbilityLevel(id)].RequiredPoints;
+        int pointsCost = DataProvider.instance.GetAbility(id).LevelInfo[GetActiveAbilityLevel(id)].RequiredPoints;
 
         foreach (ActiveAbilityDataSlot slot in LocalPlayerData.heroData.activeTalents)
         {
@@ -387,7 +434,7 @@ public  class DataController : MonoBehaviour // remove mono TODO ??
 
     public void AddPassiveAbility(int id)
     {
-        PassiveAbility passive = InfoProvider.instance.GetPassive(id);
+        PassiveAbility passive = DataProvider.instance.GetPassive(id);
 
         int pointsCost = passive.LevelInfo[GetPassiveAbilityLevel(id)].RequiredPoints;
 
@@ -472,6 +519,7 @@ public class PlayerData
 
     public bool ready;
     public bool active;
+    public bool ai;
 
     public HeroData heroData;
 
@@ -485,6 +533,19 @@ public class PlayerData
         ready = false;
         active = true;
         heroData = new HeroData();
+        ai = false;
+    }
+
+    public PlayerData(string userId, string nickname)
+    {
+        this.userId = userId;
+        this.nickname = nickname;
+
+        StoryChoice = -1;
+        ready = false;
+        active = true;
+        heroData = new HeroData();
+        ai = true;
     }
 }
 

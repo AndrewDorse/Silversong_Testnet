@@ -8,6 +8,7 @@ public class InRoomScreenView : ScreenView
     public Button heroCreateButton;
     public Button leaveRoomButton;
     public Button readyButton;
+    public Button addBotButton;
 
     public PlayerSlotInRoom[] playerSlotsInRoom;
     public Transform playersListTransform;

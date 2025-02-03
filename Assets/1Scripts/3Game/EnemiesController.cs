@@ -56,7 +56,7 @@ namespace Silversong.Game
             {
                 Enemy enemy = GetEnemyById(data.Targets[i]);
 
-                BuffSlot buffSlot = new BuffSlot(InfoProvider.instance.GetBuff(data.Id), data.Level);
+                BuffSlot buffSlot = new BuffSlot(DataProvider.instance.GetBuff(data.Id), data.Level);
 
                 enemy.GetStatsController().ApplyBuff(buffSlot);
 
@@ -131,7 +131,7 @@ namespace Silversong.Game
 
 
 
-        public void CreateStoryEnemies(StoryOption storyOption)
+        public void CreateStoryEnemies(StoryStepOption storyOption)
         {
             _levelEnemiesData = _enemiesCreationHelper.GenerateDataForStoryOption(storyOption, _spawnPoints);
 
@@ -292,7 +292,7 @@ namespace Silversong.Game
             {
                 Enemy enemy = Instantiate(_prefab, enemyData.position, Quaternion.identity);
 
-                EnemyModelController modelController = Instantiate(InfoProvider.instance.GetMob(enemyData.mobId).Prefab, enemy.transform);
+                EnemyModelController modelController = Instantiate(DataProvider.MobProviderData.GetMob(enemyData.mobId).Prefab, enemy.transform);
 
 
                 enemy.Setup(enemyData, modelController);
@@ -406,7 +406,7 @@ namespace Silversong.Game
             {
                 EnemyData data = new EnemyData();
 
-                data.mobId = 1;
+                data.mobId = Random.Range(0, 3); // temp
                 data.position = GetPosition(i, spawnData); // get spawn points // normal/boss/ambush
                 data.targetId = string.Empty;
                 data.id = _number.ToString();
@@ -418,7 +418,7 @@ namespace Silversong.Game
             return new EnemiesData(list);
         }
 
-        public EnemiesData GenerateDataForStoryOption(StoryOption storyOption, SpawnsInfo spawnData)
+        public EnemiesData GenerateDataForStoryOption(StoryStepOption storyOption, SpawnsInfo spawnData)
         {
             List<EnemyData> list = new List<EnemyData>();
 

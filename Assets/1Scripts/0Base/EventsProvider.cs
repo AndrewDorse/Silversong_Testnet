@@ -63,11 +63,13 @@ public static class EventsProvider
 
     // Battle
 
+    public static Action<float, float> OnLocalHeroHpMpChange;
+
     public static Action<ITarget> OnLocalHeroWeaponHitEnemyCollider; // local hit
     public static Action<string, string> OnEnemyDeathRpcRecieved; // death rpc from master
     public static Action<string, string, float> OnEnemyRecievedDamage;// local damage to enemy
     public static Action<AllEnemiesRecievedDamageData> OnAllEnemiesRecievedDamageDataRpc; // damage info from other
-
+    public static Action<ITarget, string> OnLocalAiHeroWeaponHitEnemyCollider; // ai player hit enemy
 
     // local cast
     public static Action<int> OnAbilityButtonPressed; 
@@ -77,7 +79,12 @@ public static class EventsProvider
     public static Action OnAbilityUseTrigger;
     //
 
+
+    // RPC battle
     public static Action<BuffDataRPCSlot> OnBuffDataRpcRecieved;
+    public static Action<HealDataRPCSlot> OnHealDataRpcRecieved;
+
+
 
     // local passives triggers
     public static Action<Enums.PassiveTrigger> OnLocalHeroPassiveTrigger;
@@ -112,7 +119,7 @@ public static class EventsProvider
     // Story choices
     public static Action<StoryChoiceRPCData> OnStoryChoiceRpcRecieved;
     public static Action<int> OnAllPlayersMadeChoice;
-
+    public static Action OnStoryEnd;
 
 
 

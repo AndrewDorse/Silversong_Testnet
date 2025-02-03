@@ -1,3 +1,4 @@
+using Silversong.Game;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -82,7 +83,7 @@ public class BuffDebuffController
 
 
 
-    public void ApplyBuff(BuffSlot buffSlot)
+    public void ApplyBuff(BuffSlot buffSlot, Transform transform)
     {
         
 
@@ -98,12 +99,18 @@ public class BuffDebuffController
 
             if (newBuffSlot.buff.effectLoop != null) // set effect loop in transform
             {
-                //GameObject effect = Pool.instance.CreateEffect(newBuffSlot.buff.effectLoop, parent: _enemy.transform, callbackWithGO: OnDebuffEffectLoadDone);
+                GameObject effect = ObjectsPool.Spawn(newBuffSlot.buff.effectLoop, transform.position, Quaternion.identity);
+                effect.transform.parent = transform;
+                 
+                if (effect != null)
+                {
+                    newBuffSlot.effect = effect;
+                }
+            }
 
-                //if (effect != null)
-                //{
-                //    newBuffSlot.effect = effect;
-                //}
+            if (newBuffSlot.buff.effectOnStart != null) // set effect loop in transform
+            {
+                GameObject effect = ObjectsPool.Spawn(newBuffSlot.buff.effectOnStart, transform.position, Quaternion.identity);  
             }
 
             if (newBuffSlot.buff.ControlState != Enums.ControlState.none) // debuff has control state
@@ -148,9 +155,9 @@ public class BuffDebuffController
 
             if (currentBuffSlot == null) // no buff like this
             {
-                currentBuffSlot = new BuffSlot(buffSlot.buff, buffSlot.level);
-                _buffs.Add(currentBuffSlot);
-                ApplyBuffStats(currentBuffSlot);
+                newBuffSlot = new BuffSlot(buffSlot.buff, buffSlot.level);
+                _buffs.Add(newBuffSlot);
+                ApplyBuffStats(newBuffSlot);
             }
             else // trying to stack buff
             {
@@ -158,18 +165,28 @@ public class BuffDebuffController
                 {
                     ApplyBuffStats(currentBuffSlot);
                 }
+                else
+                {
+                    currentBuffSlot.duration = buffSlot.duration;
+                }
             }
 
 
 
             if (newBuffSlot.buff.effectLoop != null) // set effect loop in transform
             {
-                //GameObject effect = Pool.instance.CreateEffect(newBuffSlot.buff.effectLoop, parent: _enemy.transform, callbackWithGO: OnDebuffEffectLoadDone);
+                GameObject effect = ObjectsPool.Spawn(newBuffSlot.buff.effectLoop, transform.position, Quaternion.identity);
+                effect.transform.parent = transform;
 
-                //if (effect != null)
-                //{
-                //    newBuffSlot.effect = effect;
-                //}
+                if (effect != null)
+                {
+                    newBuffSlot.effect = effect;
+                }
+            }
+
+            if (newBuffSlot.buff.effectOnStart != null) // set effect loop in transform
+            {
+                GameObject effect = ObjectsPool.Spawn(newBuffSlot.buff.effectOnStart, transform.position, Quaternion.identity);
             }
 
             if (newBuffSlot.buff.ControlState != Enums.ControlState.none) // debuff has control state
@@ -309,6 +326,9 @@ public class StateSlot
     }
 }
 
+
+
+
 [System.Serializable]
 public class BuffDataRPCSlot  // for rpc
 {
@@ -331,6 +351,33 @@ public class BuffDataRPCSlot  // for rpc
             Targets[i] = list[i].GetId();
         }
     }
+
+    public BuffDataRPCSlot(BuffSlot buffSlot, ITarget target)
+    {
+        Id = buffSlot.buff.Id;
+        Duration = buffSlot.duration;
+        Level = buffSlot.level;
+
+        Targets = new string[1];
+
+         
+        Targets[0] = target.GetId(); 
+    }
 }
 
+[System.Serializable]
+public class HealDataRPCSlot  // for rpc
+{
+    public string UserId;  
 
+    public float Value;
+
+    public string[] Targets;
+
+    public HealDataRPCSlot(string id, float value, string[] targets)
+    {
+        UserId = id;
+        Value = value;
+        Targets = targets;
+    }
+}

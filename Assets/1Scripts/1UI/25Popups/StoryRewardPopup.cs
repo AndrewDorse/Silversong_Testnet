@@ -18,7 +18,7 @@ namespace Silversong.UI
 
 
 
-        public void Setup(StoryOption option)
+        public void Setup(StoryStepOption option)
         {
             _icon.sprite = option.Icon;
             _optionText.text = option.Text;
@@ -54,7 +54,7 @@ namespace Silversong.UI
             {
                 ItemPopup itemPopup = Master.instance.GetPopup(Enums.PopupType.item) as ItemPopup;
 
-                InventoryItem item = InfoProvider.instance.GetItem(rewardSlot.Value);
+                InventoryItem item = DataProvider.instance.GetItem(rewardSlot.Value);
 
 
                 itemPopup.Setup(item, Enums.UniversalButtonType.backButton, null, 0);

@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Buff Provider Data
   m_EditorClassIdentifier: 
   _buffs:
+  - {fileID: 11400000, guid: a41409073db7fd64d91a37de43094dcf, type: 2}
+  - {fileID: 11400000, guid: fb437a103ae89b3468b937f8d3e24951, type: 2}
   - {fileID: 11400000, guid: 3e898e17b21e4bf49abc91a7d3e7a17d, type: 2}

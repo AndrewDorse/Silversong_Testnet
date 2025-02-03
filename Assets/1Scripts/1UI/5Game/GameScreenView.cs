@@ -10,8 +10,13 @@ public class GameScreenView : ScreenView
 
 
     public AbilityButton[] abilityButtons;
+    public Button statsButton;
+
+    public Image hpImage;
+    public Image mpImage;
 
 
+    public PartyPlayerSlotUI[] partyPlayerSlotUIs;
 
     public override ScreenController Construct()
     {

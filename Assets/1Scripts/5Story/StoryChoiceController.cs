@@ -5,28 +5,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StoryChoiceController  
-{ 
+{
+    public static Story CurrentStory => GetStory();
+    public static StoryStep CurrentStoryStep { get; private set; } 
+
+
+     
     public static Story GetStory()
     {
         int id = DataController.instance.GameData.GameLevels[DataController.instance.GameData.Level - 1].StoryId;
-
-        return InfoProvider.instance.GetStory(id);
+         
+        return DataProvider.instance.GetStory(id);
     }
 
     public StoryChoiceController()
     {
-        EventsProvider.OnLevelStart += OnStartLevel;
-        EventsProvider.OnPlayersDataChanged += CheckPlayersChoices;
+        EventsProvider.OnLevelStart += SetStoryChoice;
+        EventsProvider.OnPlayersDataChanged += CheckPlayersChoices; 
+    } 
 
-
-        
-    }
-
-
-
-
-
-    private void OnStartLevel()
+    private void SetStoryChoice()
     {
         LevelSlot slot = DataController.instance.GameData.GameLevels[DataController.instance.GameData.Level - 1];
 
@@ -34,11 +32,11 @@ public class StoryChoiceController
         {
             SetStoryChoice(slot.StoryId);
         }
-    }
-    
+    } 
 
     private void SetStoryChoice(int id)
     {
+        CurrentStoryStep = CurrentStory.StartingStep;
         Master.instance.ChangeGameStage(Enums.GameStage.StoryChoice);
     }
 
@@ -47,12 +45,10 @@ public class StoryChoiceController
         if (MainRPCController.instance.IsMaster == false)
         {
             return;
-        }
-
+        } 
 
         int[] results = new int[5];
-
-
+         
 
         for (int i = 0; i < players.Count; i++)
         {
@@ -69,9 +65,7 @@ public class StoryChoiceController
     }
 
     private void OnAllPlayerMadeAChoice(int[] results)
-    {
-        
-
+    { 
         if (MainRPCController.instance.IsMaster == false)
         {
             return;
@@ -84,11 +78,23 @@ public class StoryChoiceController
         int result = optionNumbers[Random.Range(0, optionNumbers.Count)];
 
 
-        GameMaster.RewardsController.SetStoryOptionRewards(GetStory().Options[result].RewardSlot);
 
-        EventsProvider.OnAllPlayersMadeChoice?.Invoke(result);
+        if(CurrentStoryStep.Options[result].NextStoryStep == null)
+        {
+            GameMaster.RewardsController.SetStoryOptionRewards(CurrentStoryStep.Options[result].RewardSlot);
+            DataController.LocalPlayerData.StoryChoice = -1;
+            EventsProvider.OnAllPlayersMadeChoice?.Invoke(result);
+        }
+        else
+        {
+            EventsProvider.OnAllPlayersMadeChoice?.Invoke(result);
+            CurrentStoryStep = CurrentStoryStep.Options[result].NextStoryStep;
+        }
+         
 
-        DataController.LocalPlayerData.StoryChoice = -1;
+        
+
+       
 
         Debug.Log("#OnAllPlayerMadeAChoice# " + results[0] + results[1] + results[2] + results[3] + results[4] + "  " + result + "  most voted anount" + optionNumbers.Count);
     }

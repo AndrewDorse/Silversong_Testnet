@@ -28,7 +28,7 @@ public class StatisticsSlotUI : MonoBehaviour
     public void Setup(Silversong.Game.Statistics.PlayerStatisticsSlot data)
     {
 
-        classIcon.sprite = InfoProvider.instance.GetHeroClass(data.ClassId).icon;
+        classIcon.sprite = DataProvider.HeroClassProviderData.GetHeroClass(data.ClassId).icon;
 
         playerText.text = data.Nickname;
 

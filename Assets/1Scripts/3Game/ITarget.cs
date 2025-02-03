@@ -13,4 +13,8 @@ public interface ITarget
 
     public string GetId();
 
+    public bool CanBeAttacked();
+
+    public bool IsAi();
+
 }

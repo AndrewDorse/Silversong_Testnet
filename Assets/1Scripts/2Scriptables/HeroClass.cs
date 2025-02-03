@@ -12,7 +12,7 @@ public class HeroClass : ScriptableObject
 
     [Tooltip("Stats")]
     public Enums.MainAttributes attribute;
-
+    public List<StatSlot> startStats;
 
 
 #if UNITY_EDITOR

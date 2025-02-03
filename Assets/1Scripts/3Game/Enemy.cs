@@ -2,6 +2,7 @@ using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -19,7 +20,7 @@ namespace Silversong.Game
 
         [SerializeField] private HealthBar _healthBar;
         [SerializeField] private EnemyMovementController _movementController;
-
+         
 
         private StatsController _stats;
         private EnemyModelController _modelController;
@@ -30,7 +31,7 @@ namespace Silversong.Game
         {
             Id = enemyData.id;
 
-            _stats = new StatsController(enemyData, OnHpReduced, OnControlStatesChanged);
+            _stats = new StatsController(enemyData, OnHpReduced, OnControlStatesChanged, transform);
 
 
             _modelController = enemyModelController;
@@ -68,7 +69,24 @@ namespace Silversong.Game
             _movementController.Target = _target;
         }
 
+        public void Hit()
+        { 
+            if(_target != null)
+            {
+                if(_target.GetId() == DataController.instance.LocalData.UserId)
+                { 
+                    FightCalculation.CalculateDamage(_stats, _target.GetStatsController(), TargetId);
+                }
 
+                if (PhotonNetwork.IsMasterClient == true)
+                {
+                    if (AiController.TargetIsAi(_target.GetId()))
+                    {
+                        FightCalculation.CalculateDamage(_stats, _target.GetStatsController(), TargetId);
+                    }
+                }
+            }
+        }
 
 
 
@@ -77,16 +95,26 @@ namespace Silversong.Game
         private void Tick()
         {
             if (TargetId == string.Empty)
+            { 
+                (_target, TargetId) = TargetProvider.GetClosestAlly(transform.position);
+
+                if (_target == null)
+                {
+                    return;
+                } 
+            }
+
+            if (_target.CanBeAttacked() == false)
             {
-                (_target, TargetId) = TargetProvider.GetClosestAlly(this);
+                (_target, TargetId) = TargetProvider.GetClosestAlly(transform.position);
 
                 if (_target == null)
                 {
                     return;
                 }
+            } 
 
-                _movementController.Target = _target;
-            }
+            _movementController.Target = _target;
         }
 
         private void OnHpReduced(string attackingId, float value, bool fromRpc)
@@ -96,9 +124,34 @@ namespace Silversong.Game
                 EventsProvider.OnEnemyRecievedDamage?.Invoke(attackingId, Id, value);
             }
 
-            // passives here too??
+            _healthBar.SetValueLocal(_stats.CurrentHp / _stats.GetStat(Enums.Stats.hp)); // change it to coroutine? to change hbar smoothly??? TODO check
 
-            _healthBar.SetValueLocal(_stats.CurrentHp / 100f); // change it to coroutine? to change hbar smoothly??? TODO check
+            if (TargetId == string.Empty)
+            {
+                (_target, TargetId) = TargetProvider.GetClosestAlly(transform.position);
+
+                if (_target == null)
+                {
+                    return;
+                }
+
+                _movementController.Target = _target;
+            }
+
+            // damage effect
+            TMP_Text text = ObjectsPool.Spawn(DataProvider.BattlePrefabsProviderData.CombatText, transform.position + Vector3.up * 1f, Quaternion.identity);
+            text.text = "-" + Mathf.RoundToInt(value).ToString();
+
+            int random = UnityEngine.Random.Range(0, 100);
+
+            if (random > 50)
+            {
+                GameObject bloodEffect = ObjectsPool.Spawn(DataProvider.BattlePrefabsProviderData.Effects[0], transform.position + Vector3.up * 1f, Quaternion.identity);
+            }
+
+            GameObject hitEffect = ObjectsPool.Spawn(DataProvider.BattlePrefabsProviderData.Effects[1], transform.position + Vector3.up * 1f, Quaternion.identity);
+
+            // passives here too??
 
 
             if (_stats.CurrentHp <= 0)
@@ -186,6 +239,16 @@ namespace Silversong.Game
         public string GetId()
         {
             return Id;
+        }
+
+        public bool CanBeAttacked()
+        {
+            return true;
+        }
+
+        public bool IsAi()
+        {
+            return false;
         }
     }
 }

@@ -56,10 +56,10 @@ public class PhotonConnector : MonoBehaviourPunCallbacks
 		PhotonNetwork.NetworkingClient.ConnectToRegionMaster(DataController.instance.LocalData.regionCode);
 
 
-		PhotonNetwork.NickName = "Andrew Android";
+		PhotonNetwork.NickName = "Andrew Android" + Random.Range(0,10000);
 
 #if UNITY_EDITOR
-		PhotonNetwork.NickName = "Andrew Desktop";
+		PhotonNetwork.NickName = "Andrew Desktop" + Random.Range(0, 10000);
 #endif
 
 
@@ -166,11 +166,9 @@ public class PhotonConnector : MonoBehaviourPunCallbacks
 		else // first connect
 		{
 			Debug.Log("#pun# OnJoinedRoom NORMAL");
+			 
 			EventsProvider.OnGameDataRpcRecieved -= OnRecievedGameDataForReconnect;
-
-			
-			
-
+			 
 			EventsProvider.OnJoinRoom?.Invoke();
 
 			DataController.instance.LocalData.OldUserId = PhotonNetwork.LocalPlayer.UserId; // for reconnect
@@ -178,7 +176,11 @@ public class PhotonConnector : MonoBehaviourPunCallbacks
 			DataController.instance.LocalData.RoomId = PhotonNetwork.CurrentRoom.Name;
 			SaveController.SaveLocalData();
 
-			if (PhotonNetwork.IsMasterClient)
+
+
+            Master.instance.ChangeGameStage(Enums.GameStage.inRoom);
+
+            if (PhotonNetwork.IsMasterClient)
 			{
 				DataController.instance.GameData.roomId = PhotonNetwork.CurrentRoom.Name;
 				DataController.instance.TryToAddPlayer(PhotonNetwork.LocalPlayer);
@@ -189,8 +191,7 @@ public class PhotonConnector : MonoBehaviourPunCallbacks
 			}
 
 
-			Master.instance.ChangeGameStage(Enums.GameStage.inRoom);
-		}
+        }
 
 		
 

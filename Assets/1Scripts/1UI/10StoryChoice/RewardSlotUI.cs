@@ -19,7 +19,7 @@ public class RewardSlotUI : MonoBehaviour
     public void Setup(RewardSlot rewardSlot, Action<RewardSlot> callback )
     {
 
-        _icon.sprite = InfoProvider.instance.RewardsProviderData.GetIconByRewardType(rewardSlot.RewardType, rewardSlot.Value);
+        _icon.sprite = DataProvider.RewardsProviderData.GetIconByRewardType(rewardSlot.RewardType, rewardSlot.Value);
 
         if (_text != null)
         {

@@ -80,20 +80,17 @@ public class GameStarter
     private void StartGame()
     {
         if (PhotonNetwork.IsMasterClient)
-        {
-            DataController.instance.GameData.gameStage = Enums.ServerGameStage.gameLevel;
+        { 
             DataController.instance.GameData.sceneName = GetNextSceneName(DataController.instance.GameData.Level);
-
-
-
+             
             EventsProvider.OnPlayersDataChanged -= CheckIfAllPlayersAreReadyForStartGame;
+              
+            DataController.instance.GameData.gameStage = Enums.ServerGameStage.gameLevel;
 
             EventsProvider.OnGameStart?.Invoke();
-
             MainRPCController.instance.SendStartGameInfo();
 
             Master.instance.ChangeGameStage(Enums.GameStage.game);
-
         }
     }
 

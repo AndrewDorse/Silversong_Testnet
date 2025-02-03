@@ -21,6 +21,7 @@ public class HeroCreationScreenView : ScreenView
 
     public UIPage[] uIPages;
 
+    public HeroRotator heroRotator;
 
     public override ScreenController Construct()
     {

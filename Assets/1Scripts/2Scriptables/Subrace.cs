@@ -11,8 +11,7 @@ public class Subrace : ScriptableObject
     public string description;
 
     //public EnumsHandler.Tags[] tags;
-    public Mesh faceMesh;
-    public Mesh hairMesh, halfHairMesh;
+    
 
 #if UNITY_EDITOR
     [PreviewSprite]
@@ -21,10 +20,20 @@ public class Subrace : ScriptableObject
     public Sprite icon;
     public Vector3 scale;
     public float stepOffset;
-   // public EnumsHandler.ItemRareness rareness;
+    // public EnumsHandler.ItemRareness rareness;
 
     //public StatArray onSubraceChoose;
     //public Passive[] onSubraceChoosePassives;
 
-   
+
+
+
+    //public Mesh faceMesh;
+    //public Mesh hairMesh, halfHairMesh;
+
+    //public Material hairMaterial;
+    //public Material bodyMaterial;
+    //public Material faceMaterial;
+
+    public MeshHead meshHead;
 }

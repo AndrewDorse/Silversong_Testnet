@@ -16,8 +16,7 @@ namespace Silversong.Game
         public List<OtherHero> OtherHeroes;
         public List<Enemy> Enemies => _enemiesController.Enemies;
         public LocalHero LocalHero { get; private set; }
-
-
+     
 
 
 
@@ -28,8 +27,8 @@ namespace Silversong.Game
         private LevelStatisticsController _statisticsController;
 
         private OtherHeroesController _otherHeroesController = new OtherHeroesController();
-        private RewardsController _rewardsController;
-        private StoryChoiceController _storyController;
+        private RewardsController _rewardsController = new RewardsController();
+        private StoryChoiceController _storyController = new StoryChoiceController();
 
 
         public static RewardsController RewardsController => instance._rewardsController;
@@ -38,10 +37,7 @@ namespace Silversong.Game
 
         private void Awake()
         {
-            instance = this;
-
-            _rewardsController = new RewardsController();
-            _storyController = new StoryChoiceController();
+            instance = this; 
 
             EventsProvider.OnLevelEnd += LevelEnd;
         }
@@ -49,6 +45,8 @@ namespace Silversong.Game
         public void LevelStart(List<PlayerData> playersData) // enemies info here???? TODO
         {
             LocalHero = CreateLocalHero(DataController.instance.GetMyHeroData());
+            HeroStatsController.instance.StatsController.UpdateTransform(LocalHero.transform);
+
 
             _gameCamera.Setup(LocalHero.gameObject);
 
@@ -72,6 +70,7 @@ namespace Silversong.Game
 
             EventsProvider.OnDeathOfAllEnemies += OnDeathOfAllEnemies;
             EventsProvider.OnAllPlayersMadeChoice += OnPlayersMadeStoryChoice;
+            EventsProvider.OnStoryEnd += FinishStoryChoice;
         }
 
         private void LevelEnd()
@@ -136,7 +135,7 @@ namespace Silversong.Game
             {
                 if (data.userId != DataController.instance.LocalData.UserId)
                 {
-                    result.Add(_playerCreator.CreateOtherHero(data.heroData, data.userId, data.nickname));
+                    result.Add(_playerCreator.CreateOtherHero(data));
                 }
             }
 
@@ -145,7 +144,7 @@ namespace Silversong.Game
 
         private void SendLocalHeroDataToOthers() //TODO Check it
         {
-            GameRPCController.instance.UpdateLocalHeroPosition(LocalHero);
+            GameRPCController.instance.UpdateLocalHeroData(LocalHero);
         }
 
 
@@ -168,15 +167,27 @@ namespace Silversong.Game
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                _enemiesController.CreateStoryEnemies(InfoProvider.instance.GetStory(DataController.LevelSlot.StoryId).Options[optionNumber]);
+                _enemiesController.CreateStoryEnemies(StoryChoiceController.CurrentStoryStep.Options[optionNumber]);
                 
                 GameRPCController.instance.SendFinalChoiceToOthers(optionNumber);
             }
             
-            DataController.LocalPlayerData.StoryChoice = -1;
+            DataController.LocalPlayerData.StoryChoice = -1; 
         }
 
-       
+        private void FinishStoryChoice()
+        {
+            if(_enemiesController.Enemies == null ||
+                _enemiesController.Enemies.Count == 0)
+            {
+                OnDeathOfAllEnemies();
+            }
+
+
+        }
+
+
+
 
 
 

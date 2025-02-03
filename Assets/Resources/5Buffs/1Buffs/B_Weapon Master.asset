@@ -14,29 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Icon: {fileID: 21300000, guid: 39140730fb5071140a7afa80d23b8d19, type: 3}
-  Name: 
+  Name: Weapon Master
   Description: 
   IsBuff: 1
   MaxLevel: 1
   CharacterState: 0
   ControlState: 0
-  effectLoop:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  effectOnStart:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
+  effectLoop: {fileID: 100006, guid: 85b20315502139443bd9dd975ab0b755, type: 3}
+  effectOnStart: {fileID: 0}
   LevelData:
   - Duration: 15
     Amount: 1
     MaxStack: 5
     Stats:
     - stat: 25
-      value: 3
+      value: 10
     - stat: 14
       value: 3
   - Duration: 15
@@ -44,4 +36,4 @@ MonoBehaviour:
     MaxStack: 5
     Stats:
     - stat: 25
-      value: 3
+      value: 10

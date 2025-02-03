@@ -54,7 +54,7 @@ namespace Silversong.Base
 
             // if it is choice we need story ID
 
-            return (Enums.LevelType)Random.Range(1, 2);
+            return (Enums.LevelType)Random.Range(0, 2);
         }
 
         private (int, Enums.Region) GetLevelId(int currentLevel, Enums.Region[] lastLevelRegions) // TODO + last levels ids too

@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using Silversong.Game;
 using Silversong.Game.Statistics;
 using System.Collections;
@@ -15,11 +16,28 @@ public class GameRPCController : MonoBehaviourPun
         instance = this;
     }
 
-    public void UpdateLocalHeroPosition(LocalHero localHero)
+    public void UpdateLocalHeroData(LocalHero localHero)
     {
         HeroInfoRPC data = new HeroInfoRPC(localHero);
 
         photonView.RPC("UpdateLocalHeroPositionRPC", RpcTarget.Others, JsonUtility.ToJson(data));
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            List<AiPlayerSlot> aiPlayers = AiController.AiPlayers;
+
+            if(aiPlayers == null)
+            {
+                return;
+            }
+
+            foreach (var aiPlayer in aiPlayers)
+            {
+                HeroInfoRPC aiData = new HeroInfoRPC(aiPlayer);
+
+                photonView.RPC("UpdateLocalHeroPositionRPC", RpcTarget.All, JsonUtility.ToJson(aiData));
+            } 
+        }
     }
 
     [PunRPC]
@@ -105,11 +123,23 @@ public class GameRPCController : MonoBehaviourPun
     [PunRPC]
     private void SendBuffApplyDataToOthersRPC(string data)
     {
+        Debug.Log("### GOT SendBuffApplyDataToOthersRPC data= " + data);
         EventsProvider.OnBuffDataRpcRecieved?.Invoke(JsonUtility.FromJson<BuffDataRPCSlot>(data));
+        
     }
 
-
-
+    //HEAL RPC
+    public void SendHealDataToOthers(string data)
+    {
+        photonView.RPC("SendHealDataToOthersRPC", RpcTarget.Others, data);
+    }
+    [PunRPC]
+    private void SendHealDataToOthersRPC(string data)
+    {
+        Debug.Log("### GOT SendHealDataToOthersRPC data= " + data);
+        EventsProvider.OnHealDataRpcRecieved?.Invoke(JsonUtility.FromJson<HealDataRPCSlot>(data));
+      
+    }
 
 
 
@@ -204,8 +234,18 @@ public class HeroInfoRPC
         position = localHero.gameObject.transform.position;
         direction = localHero.gameObject.transform.forward;
 
-        healthPc = 1;
-        manaPc = 1;
+        healthPc = HeroStatsController.instance.StatsController.PercentHp;
+        manaPc = HeroStatsController.instance.StatsController.PercentMp;
+    }
+
+    public HeroInfoRPC(AiPlayerSlot aiPlayerSlot)
+    {
+        userId = aiPlayerSlot.Id;
+        position = aiPlayerSlot.Hero.gameObject.transform.position;
+        direction = aiPlayerSlot.Hero.gameObject.transform.forward;
+
+        healthPc = aiPlayerSlot.StatsController.PercentHp;
+        manaPc = aiPlayerSlot.StatsController.PercentMp;
     }
 }
 

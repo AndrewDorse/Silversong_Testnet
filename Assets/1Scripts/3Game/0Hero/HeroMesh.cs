@@ -5,12 +5,13 @@ using UnityEngine;
 public class HeroMesh : MonoBehaviour
 {
     [SerializeField]
-    private SkinnedMeshRenderer face, hair, helmet,
+    private SkinnedMeshRenderer  
+                        helmet,
                      chest, shoulderPad, gloves, shoes,
                      belt, backPack
                       ;
 
-    [SerializeField] private MeshRenderer rightHand, leftHand, shield;
+    [SerializeField] private MeshRenderer  rightHand, leftHand, shield;
 
 
 
@@ -22,54 +23,84 @@ public class HeroMesh : MonoBehaviour
 
     [SerializeField] private WeaponController[] _weaponControllers;
 
+    [SerializeField] private Transform _headPosition;
+
+    private MeshHead _meshHead;
 
 
     public void SetClassAndRace(HeroClass heroClass, Subrace subrace)
     {
-        _animator.runtimeAnimatorController = heroClass.animatorController;
+        gameObject.SetActive(true);
 
-        SetSubRace(subrace);
+        _animator.runtimeAnimatorController = heroClass.animatorController;
+         
+        if(_meshHead != null)
+        {
+            Destroy(_meshHead.gameObject);
+        }
+
+        _meshHead = Instantiate(subrace.meshHead, _headPosition);
+
+
+
+
+       // Material[] newMaterials = body.materials;
+
+        // hair.sharedMesh = subrace.hairMesh;
+        // hair.material = subrace.hairMaterial;
+        //// newMaterials[0] = subrace.bodyMaterial;
+
+        //// body.materials = newMaterials;
+
+        // newMaterials = face.materials;
+        // newMaterials[2] = subrace.faceMaterial;
+        // face.materials = newMaterials;
+
+        //SetSubRace(subrace);
         SetSubraceScale(subrace.scale);
 
-        if (heroClass.classMeshes.helmetType == Enums.ClassHelmTypes.none)
-        {
-            face.sharedMesh = subrace.faceMesh;
-            face.gameObject.SetActive(true);
-            helmet.gameObject.SetActive(false);
-            hair.gameObject.SetActive(true);
-            hair.sharedMesh = subrace.hairMesh;
-        }
-        else if (heroClass.classMeshes.helmetType == Enums.ClassHelmTypes.openFaceHelm)
-        {
-            if (heroClass.classMeshes.helmet != null)
-            {
-                helmet.sharedMesh = heroClass.classMeshes.helmet;
-                helmet.gameObject.SetActive(true);
-                face.gameObject.SetActive(true);
-                hair.sharedMesh = subrace.halfHairMesh;
-            }
-        }
-        else if (heroClass.classMeshes.helmetType == Enums.ClassHelmTypes.fullHelmet)
-        {
-            if (heroClass.classMeshes.helmet != null)
-            {
-                helmet.sharedMesh = heroClass.classMeshes.helmet;
-                helmet.gameObject.SetActive(true);
-                face.gameObject.SetActive(false);
-                hair.gameObject.SetActive(false);
-            }
-        }
-        else if (heroClass.classMeshes.helmetType == Enums.ClassHelmTypes.mask)
-        {
-            if (heroClass.classMeshes.helmet != null)
-            {
-                helmet.sharedMesh = heroClass.classMeshes.helmet;
-                helmet.gameObject.SetActive(true);
-                face.gameObject.SetActive(true);
-                hair.gameObject.SetActive(true);
-                hair.sharedMesh = subrace.hairMesh;
-            }
-        }
+
+        //transform.localPosition = new Vector3(0, subrace.stepOffset,0);
+
+        //if (heroClass.classMeshes.helmetType == Enums.ClassHelmTypes.none)
+        //{
+        //    face.sharedMesh = subrace.faceMesh;
+        //    face.gameObject.SetActive(true);
+        //    helmet.gameObject.SetActive(false);
+        //    hair.gameObject.SetActive(true);
+        //    hair.sharedMesh = subrace.hairMesh;
+        //}
+        //else if (heroClass.classMeshes.helmetType == Enums.ClassHelmTypes.openFaceHelm)
+        //{
+        //    if (heroClass.classMeshes.helmet != null)
+        //    {
+        //        helmet.sharedMesh = heroClass.classMeshes.helmet;
+        //        helmet.gameObject.SetActive(true);
+        //        face.gameObject.SetActive(true);
+        //        hair.sharedMesh = subrace.halfHairMesh;
+        //    }
+        //}
+        //else if (heroClass.classMeshes.helmetType == Enums.ClassHelmTypes.fullHelmet)
+        //{
+        //    if (heroClass.classMeshes.helmet != null)
+        //    {
+        //        helmet.sharedMesh = heroClass.classMeshes.helmet;
+        //        helmet.gameObject.SetActive(true);
+        //        face.gameObject.SetActive(false);
+        //        hair.gameObject.SetActive(false);
+        //    }
+        //}
+        //else if (heroClass.classMeshes.helmetType == Enums.ClassHelmTypes.mask)
+        //{
+        //    if (heroClass.classMeshes.helmet != null)
+        //    {
+        //        helmet.sharedMesh = heroClass.classMeshes.helmet;
+        //        helmet.gameObject.SetActive(true);
+        //        face.gameObject.SetActive(true);
+        //        hair.gameObject.SetActive(true);
+        //        hair.sharedMesh = subrace.hairMesh;
+        //    }
+        //}
 
 
 
@@ -110,17 +141,17 @@ public class HeroMesh : MonoBehaviour
 
     private void SetSubRace(Subrace subrace)
     {
-        face.sharedMesh = subrace.faceMesh;
+        //face.sharedMesh = subrace.faceMesh;
 
-        if (!helmet.gameObject.activeInHierarchy)
-        {
-            hair.sharedMesh = subrace.hairMesh;
-        }
-        else
-        {
-            hair.sharedMesh = subrace.halfHairMesh;
+        //if (!helmet.gameObject.activeInHierarchy)
+        //{
+        //    hair.sharedMesh = subrace.hairMesh;
+        //}
+        //else
+        //{
+        //    hair.sharedMesh = subrace.halfHairMesh;
 
-        }
+        //}
     }
 
     private void SetSubraceScale(Vector3 scale)
@@ -132,8 +163,8 @@ public class HeroMesh : MonoBehaviour
     {
         Material material = _materials[materialNumber];
 
-        face.material = material;
-        hair.material = material;
+        //face.material = material;
+        //hair.material = material;
         helmet.material = material;
         chest.material = material;
         shoulderPad.material = material;
@@ -153,6 +184,12 @@ public class HeroMesh : MonoBehaviour
         _weaponControllers[2].gameObject.SetActive(false);
     }
 
+    public void SetupWeaponControllers(string id)
+    {
+        _weaponControllers[0].Setup(true, id);
+        _weaponControllers[1].Setup(true, id);
+        _weaponControllers[2].Setup(true, id);
+    }
 }
 
 
@@ -166,4 +203,8 @@ public class HeroClassMeshes
                    rightHand, leftHand, shield;
 
     public Enums.ClassHelmTypes helmetType = Enums.ClassHelmTypes.none;
+
 }
+
+ 
+

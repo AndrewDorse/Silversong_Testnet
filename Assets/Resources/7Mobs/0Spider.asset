@@ -14,5 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 1
   Name: 
+  Description: 
+  Tags: 
+  Agressive: 1
   Prefab: {fileID: 1158272375335013403, guid: dae6ebd8ee0eba34eb614c9885002efe, type: 3}
-  Stats: []
+  Stats:
+  - stat: 0
+    value: 50
+  - stat: 40
+    value: 43.8

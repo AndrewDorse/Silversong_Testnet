@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +28,7 @@ namespace Silversong.Game
             _movementController = new LocalHeroMovementController(_characterController, _agent, _heroAnimatorController); // TODO change anim to Action<float> ???
 
 
-            _heroMesh.SetClassAndRace(InfoProvider.instance.GetHeroClass(heroData.classId), InfoProvider.instance.GetSubrace(heroData.SubraceId));
+            _heroMesh.SetClassAndRace(DataProvider.HeroClassProviderData.GetHeroClass(heroData.classId), DataProvider.instance.GetSubrace(heroData.SubraceId));
             _heroAnimatorController.SetupForLocalHero();
 
 
@@ -62,6 +63,24 @@ namespace Silversong.Game
         public string GetId()
         {
             return DataController.LocalPlayerData.userId;
+        }
+
+        private void DeathLocal(string killerId)
+        {
+            if (PhotonNetwork.IsMasterClient == true)
+            {
+               // Dispose();
+                Destroy(gameObject);
+            }
+        }
+        public bool CanBeAttacked()
+        {
+            return true;
+        }
+
+        public bool IsAi()
+        {
+            return false;
         }
     }
 }

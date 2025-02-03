@@ -10,51 +10,54 @@ namespace Silversong.Game
 
         // GET ALLIES
 
-        public static (ITarget, string) GetClosestAlly(Enemy enemy)
+        public static (ITarget, string) GetClosestAlly(Vector3 pos, ITarget exclude = null)
         {
             if (GameMaster.instance.LocalHero == null)
             {
                 return (null, "");
             }
-            if (GameMaster.instance.OtherHeroes == null) // what about solo game??? TODO
-            {
-                return (null, "");
-            }
-            if (GameMaster.instance.OtherHeroes.Count == 0)
-            {
-                return (null, "");
-            }
-
-            List<OtherHero> otherHeroes = GameMaster.instance.OtherHeroes;
 
             float bestDistance = 100;
             string targetId = string.Empty;
             ITarget target = null;
 
-            for (int i = 0; i < otherHeroes.Count; i++)
+            if (GameMaster.instance.OtherHeroes != null) // what about solo game??? TODO
             {
-                // if hero can be attacked
-
-                float distance = Vector3.Distance(otherHeroes[i].transform.position, enemy.transform.position);
-
-                if (distance < bestDistance)
+                if (GameMaster.instance.OtherHeroes.Count > 0)
                 {
-                    targetId = otherHeroes[i].UserId;
-                    bestDistance = distance;
-                    target = otherHeroes[i];
-                }
+                    List<OtherHero> otherHeroes = GameMaster.instance.OtherHeroes;
+
+                    for (int i = 0; i < otherHeroes.Count; i++)
+                    {
+                        if (otherHeroes[i].CanBeAttacked() ==false)
+                        {
+                            continue;
+                        }
+
+                        float distance = Vector3.Distance(otherHeroes[i].transform.position, pos);
+
+                        if (distance < bestDistance)
+                        {
+                            targetId = otherHeroes[i].UserId;
+                            bestDistance = distance;
+                            target = otherHeroes[i];
+                        }
+                    }
+                } 
             }
 
             // check local hero too
 
-            float localHeroDistance = Vector3.Distance(GameMaster.instance.LocalHero.transform.position, enemy.transform.position);
-
-            if (localHeroDistance < bestDistance)
+            if (exclude != (GameMaster.instance.LocalHero as ITarget))
             {
-                targetId = DataController.instance.LocalData.UserId;
-                target = GameMaster.instance.LocalHero;
-            }
+                float localHeroDistance = Vector3.Distance(GameMaster.instance.LocalHero.transform.position, pos);
 
+                if (localHeroDistance < bestDistance)
+                {
+                    targetId = DataController.instance.LocalData.UserId;
+                    target = GameMaster.instance.LocalHero;
+                }
+            }
 
             return (target, targetId);
         }
@@ -91,6 +94,27 @@ namespace Silversong.Game
 
 
         // GET ENEMIES
+
+        public static Enemy GetClosestEnemy(Vector3 position)
+        {
+            List<Enemy> enemies = GameMaster.instance.Enemies;
+
+            Enemy result = null;
+            float bestDistance = 100;
+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                float distance = Vector3.Distance(enemies[i].transform.position, position);
+
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    result = enemies[i];
+                }
+            }
+
+            return result;
+        }
 
         public static bool IsEnemiesInMeleeZone(Vector3 position)
         {

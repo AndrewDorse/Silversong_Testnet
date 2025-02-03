@@ -2,67 +2,85 @@ using Silversong.Game;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 
 
 public class StatsController
-{
-
+{ 
     public float CurrentHp { get; private set; }
     public float CurrentMp { get; private set; }
+    public float PercentHp => CurrentHp / GetStat(Enums.Stats.hp);
+    public float PercentMp => CurrentMp / GetStat(Enums.Stats.mp);
+    public Transform CharacterTransform => _characterTransform;
 
-    private StatsHolder _stats;
+
+
+    private StatsHolder _statsHolder;
     private Action<string, float, bool> _onHpReducedCallback;
 
     private BuffDebuffController _buffDebuffController;
     private CharacterStatesController _statesController;
     private PassiveController _passiveController;
 
+    private Transform _characterTransform;
 
-    public StatsController(HeroData heroData) // only once for local player
+    public StatsController(HeroData heroData, Action<string, float, bool> onReducedHealth, bool localHero = true) // local hero
     {
-        HeroClass heroClass = InfoProvider.instance.GetHeroClass(heroData.classId);
-        Subrace subrace = InfoProvider.instance.GetSubrace(heroData.SubraceId);
+        HeroClass heroClass = DataProvider.HeroClassProviderData.GetHeroClass(heroData.classId);
+        Subrace subrace = DataProvider.instance.GetSubrace(heroData.SubraceId);
+         
 
+        _statsHolder = new StatsHolder(heroClass.attribute); 
 
-        _stats = new StatsHolder(heroClass.attribute);
 
         Action<Enums.ControlState, bool, bool, bool, bool> controlStatesCallback = null;
+         
+        ApplyStatList(heroClass.startStats, Enums.StatType.basic);
 
-        _statesController = new CharacterStatesController(controlStatesCallback);
-
-        _buffDebuffController = new BuffDebuffController(_statesController.OnControlStatesChanged, this);
-
-        _passiveController = new PassiveController(heroData.PassiveAbilities, PassiveTriggered);
-
-        EventsProvider.OnLocalHeroPassiveTrigger += (Enums.PassiveTrigger trigger) =>
-        {
-            _passiveController.CheckPassivesByTrigger(trigger);
-        };
-
-        // apply hero class and subrace
-        // ApplyStatList(heroClass.stats on choose);
-
-
+        _onHpReducedCallback = onReducedHealth;
 
         EventsProvider.OnLevelStart += OnLevelStart;
 
-        SubcribeLocalHero();
+        if (localHero)
+        {
+            SubcribeLocalHero();
+
+            _statesController = new CharacterStatesController(controlStatesCallback);
+            _buffDebuffController = new BuffDebuffController(_statesController.OnControlStatesChanged, this);
+            _passiveController = new PassiveController(heroData.PassiveAbilities, PassiveTriggered);
+
+            EventsProvider.OnLocalHeroPassiveTrigger += (Enums.PassiveTrigger trigger) =>
+            {
+                _passiveController.CheckPassivesByTrigger(trigger);
+            };
+        } 
+        else
+        {
+            _statesController = new CharacterStatesController(controlStatesCallback);
+            _buffDebuffController = new BuffDebuffController(_statesController.OnControlStatesChanged, this);
+            _passiveController = new PassiveController(heroData.PassiveAbilities, PassiveTriggered);
+        }
+
+        _statsHolder.CalculateStats();
+        CurrentHp = GetStat(Enums.Stats.hp); 
     }
 
-
+    
 
     public StatsController(EnemyData enemyData,
         Action<string, float, bool> onHpChangeCallback,
-        Action<Enums.ControlState,bool, bool, bool,bool> controlStatesCallback)
+        Action<Enums.ControlState,bool, bool, bool,bool> controlStatesCallback, Transform transform)
     {
-        _stats = new StatsHolder();
+        _statsHolder = new StatsHolder();
 
-        CurrentHp = _stats.stats[0];
-        CurrentMp = _stats.stats[2];
+        
 
         _onHpReducedCallback = onHpChangeCallback;
+
+
+        _characterTransform = transform;
 
 
         _statesController = new CharacterStatesController(controlStatesCallback);
@@ -70,12 +88,23 @@ public class StatsController
         //_passiveController = new PassiveController();
 
         // apply enemy stats list + level increase
+
+        Mob mobData = DataProvider.MobProviderData.GetMob(enemyData.mobId);
+
+        ApplyStatList(mobData.Stats, Enums.StatType.basic);
+
+        ResetHpMp();
     }
 
-
+    public void ResetHpMp()
+    {
+        CurrentHp = _statsHolder.stats[0];
+        CurrentMp = _statsHolder.stats[2];
+    }
 
     private void OnLevelStart()
     {
+        ResetHpMp();
         _passiveController.UpdatePassivesInfo(DataController.LocalPlayerData.heroData.PassiveAbilities);
     }
 
@@ -84,7 +113,7 @@ public class StatsController
 
     public float GetStat(Enums.Stats stat)
     {
-        return _stats.stats[(int)stat];
+        return _statsHolder.stats[(int)stat];
     }
 
     public void ReduceHealth(string attackingId, float damage)
@@ -92,6 +121,18 @@ public class StatsController
         CurrentHp -= damage;
 
         _onHpReducedCallback?.Invoke(attackingId, damage, false);
+    }
+
+    public void Heal(float value)
+    {
+        CurrentHp += value;
+
+        Debug.Log("###HEAL + value");
+
+        if(CurrentHp > GetStat(Enums.Stats.hp))
+        {
+            CurrentHp = GetStat(Enums.Stats.hp);
+        } 
     }
 
     public void ReduceHealthFromRpc(float damage)
@@ -105,6 +146,10 @@ public class StatsController
         CurrentHp = value;
     }
 
+    public void UpdateTransform(Transform transform)
+    {
+        _characterTransform = transform;
+    }
 
     
 
@@ -136,7 +181,7 @@ public class StatsController
 
     private void ChangeStat(int statId, float value) // + value
     {
-        _stats.stats[statId] += value;
+        _statsHolder.stats[statId] += value;
     }
 
 
@@ -152,7 +197,7 @@ public class StatsController
             Debug.Log("#Change STAT " + slot.stat + " on " + slot.value);
         }
 
-        _stats.CalculateStats();
+        _statsHolder.CalculateStats();
     }
 
     private int GetOffsetAmount(Enums.StatType type)
@@ -191,7 +236,7 @@ public class StatsController
     // buff debuff
     public void ApplyBuff(BuffSlot slot)
     {
-        _buffDebuffController.ApplyBuff(slot);
+        _buffDebuffController.ApplyBuff(slot, _characterTransform);
     }
 
     public void ApplyBuffStats(List<StatSlot> list)
@@ -209,7 +254,7 @@ public class StatsController
             Debug.Log("#Change STAT " + slot.stat + " on " + - slot.value * stack);
         }
 
-        _stats.CalculateStats();
+        _statsHolder.CalculateStats();
     }
 
 
@@ -238,7 +283,7 @@ public class StatsController
 
     private void AddItemStats(ItemSlot itemSlot)
     {
-        InventoryItem item = InfoProvider.instance.GetItem(itemSlot.Id);
+        InventoryItem item = DataProvider.instance.GetItem(itemSlot.Id);
 
         if (item.Stats.Count > 0)
         {

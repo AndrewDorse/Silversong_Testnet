@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/3Scenes/0Main/1Menu.unity
     guid: f2e604516e8528f4f93c6c2984ca593d
+  - enabled: 1
+    path: Assets/3Scenes/1Levels/1Forest/ForestGlade_2_VIolet.unity
+    guid: 20036f27354e5f04888e8ee06013ca1b
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: ca8e14eea16f8594e853c58085c658ba,
       type: 2}

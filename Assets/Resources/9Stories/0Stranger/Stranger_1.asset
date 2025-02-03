@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7c8ddddd03445744915625575737cc4, type: 3}
+  m_Name: Stranger_1
+  m_EditorClassIdentifier: 
+  Text: Stranger asking smt
+  Icon: {fileID: 21300000, guid: 1e0e9f45da3292e469cc6056864d7285, type: 3}
+  Options:
+  - Text: Right answer
+    Icon: {fileID: 21300000, guid: 775d870e92ff6ab4cb510c5b4e649886, type: 3}
+    ShowRewards: 0
+    RequiredTag: 0
+    NextStoryStep: {fileID: 0}
+    RewardSlot:
+    - RewardType: 1
+      RecieverType: 2
+      RequiredTag: 0
+      Value: 0
+    - RewardType: 0
+      RecieverType: 3
+      RequiredTag: 0
+      Value: 0
+    BattleSlot:
+      mobs: []
+    ResultText: U answered correctly its ur reward
+  - Text: Wrong
+    Icon: {fileID: 21300000, guid: c4ba35cbc360eeb44916da36914d1a12, type: 3}
+    ShowRewards: 0
+    RequiredTag: 0
+    NextStoryStep: {fileID: 0}
+    RewardSlot:
+    - RewardType: 1
+      RecieverType: 2
+      RequiredTag: 0
+      Value: 0
+    BattleSlot:
+      mobs:
+      - {fileID: 11400000, guid: a5b3459a7e585da4abb9477760f3d4e9, type: 2}
+      - {fileID: 11400000, guid: a5b3459a7e585da4abb9477760f3d4e9, type: 2}
+      - {fileID: 11400000, guid: a5b3459a7e585da4abb9477760f3d4e9, type: 2}
+    ResultText: Wrong!
+  - Text: Wrong
+    Icon: {fileID: 21300000, guid: c4ba35cbc360eeb44916da36914d1a12, type: 3}
+    ShowRewards: 0
+    RequiredTag: 0
+    NextStoryStep: {fileID: 0}
+    RewardSlot:
+    - RewardType: 1
+      RecieverType: 2
+      RequiredTag: 0
+      Value: 0
+    BattleSlot:
+      mobs:
+      - {fileID: 11400000, guid: a5b3459a7e585da4abb9477760f3d4e9, type: 2}
+      - {fileID: 11400000, guid: a5b3459a7e585da4abb9477760f3d4e9, type: 2}
+      - {fileID: 11400000, guid: a5b3459a7e585da4abb9477760f3d4e9, type: 2}
+      - {fileID: 11400000, guid: a5b3459a7e585da4abb9477760f3d4e9, type: 2}
+      - {fileID: 11400000, guid: a5b3459a7e585da4abb9477760f3d4e9, type: 2}
+      - {fileID: 11400000, guid: a5b3459a7e585da4abb9477760f3d4e9, type: 2}
+    ResultText: Wrong!

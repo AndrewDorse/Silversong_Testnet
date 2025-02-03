@@ -15,6 +15,17 @@ MonoBehaviour:
   id: 0
   className: Fighter
   attribute: 0
+  startStats:
+  - stat: 0
+    value: 100
+  - stat: 4
+    value: 69.5
+  - stat: 6
+    value: 8
+  - stat: 8
+    value: 5
+  - stat: 40
+    value: 5
   icon: {fileID: 21300000, guid: b40a027bfd7a38f489a359e6d832ff35, type: 3}
   portrait: {fileID: 21300000, guid: 4d3fe4962b5740149acfd66d5fa4ed62, type: 3}
   animatorController: {fileID: 22100000, guid: 36dab1a33905b98499db2368891d5ba6, type: 2}

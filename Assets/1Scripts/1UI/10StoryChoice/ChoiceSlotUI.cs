@@ -21,7 +21,7 @@ public class ChoiceSlotUI : MonoBehaviour
 
 
 
-    public void Setup(StoryOption storyOption, Action<int> rewardsCallback, Action<int> choiceCallback, int number )
+    public void Setup(StoryStepOption storyOption, Action<int> rewardsCallback, Action<int> choiceCallback, int number )
     {
         gameObject.SetActive(true);
        
@@ -58,7 +58,7 @@ public class ChoiceSlotUI : MonoBehaviour
             }
 
 
-            Sprite classIcon = InfoProvider.instance.GetHeroClass(heroClassId).icon;
+            Sprite classIcon = DataProvider.HeroClassProviderData.GetHeroClass(heroClassId).icon;
 
             choiceIcon.Setup(nickName, classIcon);
 
@@ -67,7 +67,7 @@ public class ChoiceSlotUI : MonoBehaviour
     }
 
 
-    private void SetRewardsView(StoryOption storyOption, bool showRewards)
+    private void SetRewardsView(StoryStepOption storyOption, bool showRewards)
     {
         if(showRewards)
         {
@@ -80,7 +80,7 @@ public class ChoiceSlotUI : MonoBehaviour
 
                 if(i < storyOption.RewardSlot.Length)
                 {
-                    _rewardsIcons[i].sprite = InfoProvider.instance.RewardsProviderData.GetIconByRewardType(storyOption.RewardSlot[i].RewardType, storyOption.RewardSlot[i].Value);
+                    _rewardsIcons[i].sprite = DataProvider.RewardsProviderData.GetIconByRewardType(storyOption.RewardSlot[i].RewardType, storyOption.RewardSlot[i].Value);
                     _rewardsIcons[i].gameObject.SetActive(true);
                 }
                 else

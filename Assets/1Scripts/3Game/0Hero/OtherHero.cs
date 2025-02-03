@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,26 +9,50 @@ using UnityEngine.AI;
 namespace Silversong.Game
 {
     public class OtherHero : MonoBehaviour, ITarget
-    {
-        [field: SerializeField] //todo remove
-        public string UserId { get; private set; }
-        public string Nickname { get; private set; }
+    { 
+        [field: SerializeField] public string UserId { get; private set; }
+        [field: SerializeField] public string Nickname { get; private set; }
 
         [SerializeField] private HeroData _heroData; // temp
 
         [SerializeField] private OtherHeroMovementController _movementController;
         [SerializeField] private HeroMesh _heroMesh;
         [SerializeField] private HeroAnimatorController _animatorController;
+        [SerializeField] private HealthBar _healthBar;
 
-        public void Setup(HeroData heroData, string userId, string nickname)
+
+        private AiPlayerController _aiPlayerController;
+
+
+        public void Setup(PlayerData data)
         {
-            _heroData = heroData;
-            Nickname = nickname;
-            UserId = userId;
+            _heroData = data.heroData;
+            Nickname = data.nickname;
+            UserId = data.userId;
 
-            _heroMesh.SetClassAndRace(InfoProvider.instance.GetHeroClass(heroData.classId), InfoProvider.instance.GetSubrace(heroData.SubraceId));
+            _heroMesh.SetClassAndRace(DataProvider.HeroClassProviderData.GetHeroClass(data.heroData.classId),
+                DataProvider.instance.GetSubrace(data.heroData.SubraceId));
 
-            _heroMesh.TurnOffWeaponControllers();
+            if (data.ai == false)
+            {
+                _heroMesh.TurnOffWeaponControllers();
+            }
+            else
+            {
+                if(PhotonNetwork.IsMasterClient)
+                { 
+                    _heroMesh.SetupWeaponControllers(data.userId);
+                    _aiPlayerController = new AiPlayerController(_movementController);
+                    _movementController.enabled = false;
+
+                    AiController.GetPlayerStatsControllerById(data.userId).UpdateTransform(transform);
+                }
+            }
+
+
+
+            EventsProvider.OnOtherHeroInfoRpcRecieved += UpdatePlayerInfo;
+
         }
 
         public void UpdatePosition(Vector3 position, Vector3 direction)
@@ -47,7 +72,12 @@ namespace Silversong.Game
 
         public StatsController GetStatsController()
         {
-            return null; // is it? TODO
+            if(_aiPlayerController != null)
+            {
+                return AiController.GetPlayerStatsControllerById(UserId);
+            }
+
+            return null;
         }
 
 
@@ -55,10 +85,90 @@ namespace Silversong.Game
         {
 
         }
+
         public string GetId()
         {
             return UserId;
         }
 
+        public void OnHpReduced(float value, string attackingId)
+        {
+            if(value <= 0)
+            {
+                DeathLocal(attackingId);
+            }
+
+            _healthBar.SetValueLocal(value);
+        }
+
+
+
+
+        private void UpdatePlayerInfo(HeroInfoRPC data)
+        { 
+            if (UserId == data.userId)
+            {
+                _healthBar.SetValueFromRpc(data.healthPc);
+            } 
+        }
+
+
+
+
+
+
+
+        private void DeathLocal(string killerId)
+        {
+            if (PhotonNetwork.IsMasterClient == true)
+            {
+                // Dispose();
+                 gameObject.SetActive(false);
+
+                if (_aiPlayerController != null)
+                {
+                    _aiPlayerController.Dispose();
+                }
+            }
+        }
+
+        public bool CanBeAttacked()
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (_aiPlayerController != null)
+                {
+                    StatsController statsController = AiController.GetPlayerStatsControllerById(UserId);
+
+                    if (statsController == null)
+                    {
+                        return false;
+                    }
+
+                    if (statsController.CurrentHp <= 0)
+                    {
+                        return false;
+                    }
+                }
+            } 
+
+            return true;
+        }
+
+        private void OnDestroy()
+        {
+            EventsProvider.OnOtherHeroInfoRpcRecieved -= UpdatePlayerInfo;
+
+
+            if (_aiPlayerController != null)
+            {
+                _aiPlayerController.Dispose();
+            }
+        }
+
+        public bool IsAi()
+        {
+           return _aiPlayerController != null;
+        }
     }
 }

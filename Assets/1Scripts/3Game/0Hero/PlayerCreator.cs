@@ -25,13 +25,15 @@ namespace Silversong.Game
             return localHero;
         }
 
-        public OtherHero CreateOtherHero(HeroData heroData, string userId, string nickname)
+        public OtherHero CreateOtherHero(PlayerData data)
         {
-            Debug.Log("# CreateOtherHero " + JsonUtility.ToJson(heroData));
+            Debug.Log("# CreateOtherHero " + JsonUtility.ToJson(data.nickname));
 
             OtherHero otherHero = Instantiate(_otherHeroPrefab, Vector3.zero, Quaternion.identity);
 
-            otherHero.Setup(heroData, userId, nickname);
+            otherHero.Setup(data);
+
+            AiController.OnHeroPrefabCreated(otherHero, data);
 
             return otherHero;
         }

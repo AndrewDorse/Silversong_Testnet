@@ -17,11 +17,35 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 3e5bdcd745ab8404e95bda1a3e3177bd
   m_SerializeEntries:
-  - m_GUID: 20036f27354e5f04888e8ee06013ca1b
-    m_Address: ForestGlade_2_VIolet
+  - m_GUID: 09330c89dc6fde549b7443f6771fc8d3
+    m_Address: Assets/5Models/5Effects/4Explosions
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Scenes
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 27a67c5178ec68b47843024f1ee17ae1
+    m_Address: Assets/5Models/5Effects/1Hits
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6afdc05330d9848439d3a726192072f9
+    m_Address: Assets/5Models/5Effects/5Blood
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e71d891cb9702e4aa154f0d51a2e368
+    m_Address: Assets/5Models/5Effects/3OnTarget
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb1267f6c914c744a9a4895f6c684b94
+    m_Address: Assets/5Models/5Effects/9Environment
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f79c5630dceb3614cb11b625638fbb31
+    m_Address: Assets/5Models/5Effects/2OnTargetLoop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7f4dbd51d9ce9c747855e94a2f515891, type: 2}

@@ -6,7 +6,7 @@ public class Enums
         
         game, statistics, rewards, heroUpgrade, 
         
-        camp, inventory, abilities, campHeroInfo,
+        camp, inventory, abilities, heroStats,
 
         StoryChoice
     
@@ -28,7 +28,7 @@ public class Enums
 
     // hero
     public enum Races { human, elf, orc, dwarf }
-    public enum ClassHelmTypes : byte { none, openFaceHelm, mask, fullHelmet }
+    public enum ClassHelmTypes  { none, openFaceHelm, mask, fullHelmet }
 
 
 
@@ -48,7 +48,7 @@ public class Enums
 
 
     // Universal Button
-    public enum UniversalButtonType : byte
+    public enum UniversalButtonType 
     {
         available, unavailable, choosen,  // nfts
         noPlace, notEnoughMoney, canBuy, takeFromLoot, putToLoot, canSell, cannotSell, // items
@@ -66,32 +66,32 @@ public class Enums
 
 
     // Inventory
-    public enum Rarity : byte { common, uncommon, rare, epic, legendary }
+    public enum Rarity  { common, uncommon, rare, epic, legendary }
 
 
 
 
     // ABILITIES!!!!
-    public enum AbilityTarget : byte { Caster, Enemies, allies, lowestHpAlly, randomTarget, environment, closestAnotherAlly }
-    public enum AbilityActionType : byte { damage, heal, buff, taunt, summon, restoreMana, damageAllyAndBuffCaster, resurrection, projectile }
-    public enum AbilityCostType : byte { mana, health, }  // gold???
-    public enum AbilityCastTypes : byte { withoutTarget, pointing }
-    public enum AbilityConcreteTypes : byte
+    public enum AbilityTarget  { Caster, Enemies, allies, lowestHpAlly, randomTarget, environment, closestAnotherAlly }
+    public enum AbilityActionType  { damage, heal, buff, taunt, summon, restoreMana, damageAllyAndBuffCaster, resurrection, projectile }
+    public enum AbilityCostType  { mana, health, }  // gold???
+    public enum AbilityCastTypes  { withoutTarget, pointing }
+    public enum AbilityConcreteTypes 
     {
         attackSkill, defenseSkill, rangeSkill,
         healSpell,
         fireSpell, iceSpell, arcaneSpell, electroSpell, natureSpell, demonologySpell, deathSpell, lightSpell
 
     }
-    public enum DamageTypes : byte { physical, fire, ice, electro, arcane, light, dark, poison, bloodshed, pure }
+    public enum DamageTypes { physical, fire, ice, electro, arcane, light, dark, poison, bloodshed, pure }
     //public enum AbilityCasterStages : byte { nothing, pointing }
-    public enum MagicSchools : byte {  None, fire, ice, arcane, electro, nature, demonology, death, light }
+    public enum MagicSchools  {  None, fire, ice, arcane, electro, nature, demonology, death, light }
 
 
 
     // Passives
-    public enum AbilityType : byte { Class, Common, Witchcraft}
-    public enum PassiveTypes : byte
+    public enum AbilityType  { Class, Common, Witchcraft}
+    public enum PassiveTypes 
     {
         stats, buffByTrigger, special,
         debuffToEnemyByTrigger, aura, buffOnStartLevel, castByTrigger,
@@ -100,7 +100,7 @@ public class Enums
         healByTrigger
     }
 
-    public enum PassiveTrigger : byte
+    public enum PassiveTrigger 
     {
         none,
 
@@ -128,11 +128,11 @@ public class Enums
 
 
     // BUFF
-    public enum CharacterStates : byte
+    public enum CharacterStates
     {
         none, invulnerable, invisible, magicInvulnerable, physicInvulnerable, controlInvulnerable
     }
-    public enum ControlState : byte { none, Stun, Knocked, Frozen, Silenced, CantMove, Hexed, Disarmed, Sleep, Fear }
+    public enum ControlState { none, Stun, Knocked, Frozen, Silenced, CantMove, Hexed, Disarmed, Sleep, Fear }
 
 
 
@@ -152,7 +152,7 @@ public class Enums
 
     public enum RewardType { Item, LevelUp, Passive, Gold, TalentPoint}
 
-    public enum RewardReciever { PlayerWithTag, PlayerWithoutTag, All}
+    public enum RewardReciever { PlayerWithTag, PlayerWithoutTag, All, OneItemToLoot }
 
 
     // TAGS
@@ -170,11 +170,11 @@ public class Enums
     // stats 
     public enum StatType {  summ, basic, passive, item, buff }
 
-    public enum MainAttributes : byte { strength, agility, intelligence, 
+    public enum MainAttributes { strength, agility, intelligence, 
         strengthAgility, strengthIntelligence, agilityIntelligence,
         strengthAgilityIntelligence }
 
-    public enum Stats : byte
+    public enum Stats
     {
         hp, hpPc, mp, mpPc,
 
@@ -213,6 +213,16 @@ public class Enums
 
 
 
+
+
+
+    public enum Emotions
+    { 
+        Normal,
+        Angry = 1,
+        Fun = 2,
+        Joy = 3,
+    }
 
 
 

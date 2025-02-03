@@ -24,6 +24,11 @@ public class RewardsScreenController : ScreenController
 
     private void SetRewardsView(RewardSlot[] rewards)
     {
+        if(rewards == null)
+        {
+            return;
+        }
+
         for (int i = 0; i < _view.rewardSlotUIs.Length; i++)
         {
             if (i < rewards.Length)
@@ -47,7 +52,7 @@ public class RewardsScreenController : ScreenController
         {
             ItemPopup itemPopup = Master.instance.GetPopup(Enums.PopupType.item) as ItemPopup;
 
-            InventoryItem item = InfoProvider.instance.GetItem(rewardSlot.Value);
+            InventoryItem item = DataProvider.instance.GetItem(rewardSlot.Value);
 
 
             itemPopup.Setup(item, Enums.UniversalButtonType.backButton, null, 0);

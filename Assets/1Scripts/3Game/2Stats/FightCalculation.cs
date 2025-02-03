@@ -2,6 +2,7 @@ using Silversong.Game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public static class FightCalculation
 {
@@ -11,9 +12,16 @@ public static class FightCalculation
 
         // Calculate exact damage defend
 
-        attacked.ReduceHealth(attackingId, attacking.GetStat(Enums.Stats.meleeDamage));
+        float damage = attacking.GetStat(Enums.Stats.meleeDamage);
+        float armor = attacked.GetStat(Enums.Stats.armor);
+        float damageReduction = attacked.GetStat(Enums.Stats.defensePc);
 
-        Debug.Log("#Damage Melee #" + attacking.GetStat(Enums.Stats.meleeDamage));
+
+        damage *= 1 - damageReduction;
+
+        attacked.ReduceHealth(attackingId, damage);
+
+        Debug.Log("#Damage Melee #" + attackingId + "  " + damage);
     }
 
 
@@ -33,7 +41,20 @@ public static class FightCalculation
             CreateEffect();
 
             if (abilitySlot.activeAbility.Target == Enums.AbilityTarget.Caster)
-            { }
+            {
+                BuffSlot buffSlot = null;
+
+                if (abilitySlot.activeAbility.Buff)
+                {
+                    buffSlot = new BuffSlot(abilitySlot.activeAbility.Buff, abilitySlot.level);
+                    caster.GetStatsController().ApplyBuff(buffSlot);
+                }
+
+
+
+
+
+            }
             else if (abilitySlot.activeAbility.Target == Enums.AbilityTarget.Enemies)
             {
                 List<ITarget> list = TargetProvider.GetEnemyTargetsInRadius(caster.GetPosition(),
@@ -64,7 +85,50 @@ public static class FightCalculation
                 }
 
             }
+            else if (abilitySlot.activeAbility.Target == Enums.AbilityTarget.closestAnotherAlly)
+            {
+                ITarget target = TargetProvider.GetClosestAlly(caster.GetPosition(), caster).Item1;
 
+                if (target != null)
+                {
+                    if (abilitySlot.activeAbility.ActionType == Enums.AbilityActionType.heal)
+                    {
+                        float value = CalculateValue(caster, abilitySlot);
+
+                        if(target.IsAi() == true) // should work only on Master
+                        {
+                            target.GetStatsController().Heal(value);
+                        }
+                        else
+                        {
+                            GameRPCController.instance.SendHealDataToOthers(JsonUtility.ToJson(
+                                new HealDataRPCSlot(
+                                    caster.GetId(),
+                                    value,
+                                    new string[] { target.GetId() } 
+                                    )));
+                        }                        
+                    }
+                    else if (abilitySlot.activeAbility.ActionType == Enums.AbilityActionType.buff)
+                    {
+                        BuffSlot buffSlot = null;
+
+                        if (abilitySlot.activeAbility.Buff)
+                        {
+                            buffSlot = new BuffSlot(abilitySlot.activeAbility.Buff, abilitySlot.level); 
+                        } 
+
+                        if (target.IsAi() == true) // should work only on Master
+                        {
+                            target.GetStatsController().ApplyBuff(buffSlot);
+                        }
+                        else
+                        {
+                            GameRPCController.instance.SendBuffApplyDataToOthers(JsonUtility.ToJson(new BuffDataRPCSlot(buffSlot, target)));
+                        }
+                    }
+                }
+            }
 
         }
 
@@ -82,6 +146,23 @@ public static class FightCalculation
 
 
 
+
+
+    private static float CalculateValue(ITarget caster, ActiveAbilitySlot abilitySlot)
+    {
+        ActiveAbilityLevelData levelData = abilitySlot.activeAbility.LevelInfo[abilitySlot.level - 1];
+
+        float result = levelData.BaseValue;
+         
+        foreach(var slot in levelData.StatSlots)
+        {
+            float currentValue = caster.GetStatsController().GetStat(slot.stat);
+
+            result += currentValue * slot.value;
+        } 
+
+        return result;
+    }
 
 
 

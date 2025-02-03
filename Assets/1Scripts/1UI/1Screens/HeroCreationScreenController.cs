@@ -23,15 +23,13 @@ public class HeroCreationScreenController : ScreenController
         _view.topButtons[4].onClick.AddListener(() => OpenPage(Enums.HeroCreationPage.overview));
 
         _view.heroCreationOverviewPage.readyButton.onClick.AddListener(ReadyButtonClick);
+         
+        _currentSubrace = DataProvider.instance.GetSubrace(0); 
 
-        _currentHeroClass = InfoProvider.instance.GetHeroClass(0);
-        _currentSubrace = InfoProvider.instance.GetSubrace(0);
+        SetHeroClasses(DataProvider.HeroClassProviderData.GetStartHeroClasses());
+        SetRaces(DataProvider.instance.GetRaces());
 
-
-        SetHeroClasses(InfoProvider.instance.GetStartHeroClasses());
-        SetRaces(InfoProvider.instance.GetRaces());
-
-        
+        _view.heroRotator.SetupHeroObject(MenuComponents.instance.HeroObject);
 
     }
 
@@ -165,9 +163,13 @@ public class HeroCreationScreenController : ScreenController
         _heroData.classId = heroClass.id;
         OnHeroDataUpdate();
 
-        _currentHeroClass = heroClass;
 
-        EventsProvider.OnHeroClassSubraceChange(_currentHeroClass, _currentSubrace); // TODO can be changed to    OnHeroDataUpdate();
+        if(_currentHeroClass != heroClass)
+        {
+            _currentHeroClass = heroClass;
+
+            EventsProvider.OnHeroClassSubraceChange(_currentHeroClass, _currentSubrace); // TODO can be changed to    OnHeroDataUpdate();
+        } 
     }
 
     private void RaceSlotClick(Race race, RaceSlotUI slot)
@@ -187,9 +189,12 @@ public class HeroCreationScreenController : ScreenController
         _heroData.SubraceId = subrace.id;
         OnHeroDataUpdate();
 
-        _currentSubrace = subrace;
+        if (_currentSubrace != subrace)
+        {
+            _currentSubrace = subrace;
 
-        EventsProvider.OnHeroClassSubraceChange(_currentHeroClass, _currentSubrace);
+            EventsProvider.OnHeroClassSubraceChange(_currentHeroClass, _currentSubrace);
+        }
     }
 
     private void ClearSubracesSlots()

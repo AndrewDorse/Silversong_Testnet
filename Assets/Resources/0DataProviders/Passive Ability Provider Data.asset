@@ -18,7 +18,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8ad1599dd4fe1274d85db10c909f529c, type: 2}
   _schoolAbilities:
   - School: 0
-    Ids: 00000000000000000000000001000000
+    Ids: 0000000001000000
   - School: 1
-    Ids: 0100000002000000
+    Ids: 02000000
   _commonAbilitiesIds: 

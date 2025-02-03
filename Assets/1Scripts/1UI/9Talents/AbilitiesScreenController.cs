@@ -90,7 +90,7 @@ public class AbilitiesScreenController : ScreenController
 
         if (_activeAbilities)
         {
-            ActiveAbility ability = InfoProvider.instance.GetAbility(id);
+            ActiveAbility ability = DataProvider.instance.GetAbility(id);
 
 
             (Enums.UniversalButtonType, Action, int) openInfo = GetAbilityOpenType(ability);
@@ -100,7 +100,7 @@ public class AbilitiesScreenController : ScreenController
         else
         {
 
-            PassiveAbility ability = InfoProvider.instance.GetPassive(id);
+            PassiveAbility ability = DataProvider.instance.GetPassive(id);
             (Enums.UniversalButtonType, Action, int) openInfo = GetAbilityOpenType(ability);
             popup.Setup(ability, openInfo.Item1, openInfo.Item2, openInfo.Item3);
 
@@ -302,11 +302,11 @@ public class AbilitiesScreenController : ScreenController
 
         if (_activeAbilities)
         {
-            Setup(InfoProvider.instance.GetHeroClass(DataController.LocalPlayerData.heroData.classId).ActiveAbilities);
+            Setup(DataProvider.HeroClassProviderData.GetHeroClass(DataController.LocalPlayerData.heroData.classId).ActiveAbilities);
         }
         else
         {
-            Setup(InfoProvider.instance.GetHeroClass(DataController.LocalPlayerData.heroData.classId).PassiveAbilities);
+            Setup(DataProvider.HeroClassProviderData.GetHeroClass(DataController.LocalPlayerData.heroData.classId).PassiveAbilities);
         }
     }
 
@@ -318,11 +318,11 @@ public class AbilitiesScreenController : ScreenController
 
         if (_activeAbilities)
         {
-            Setup(InfoProvider.instance.GetCommonSpells());
+            Setup(DataProvider.instance.GetCommonSpells());
         }
         else
         {
-            Setup(InfoProvider.instance.GetCommonPassives());
+            Setup(DataProvider.instance.GetCommonPassives());
         }
     }
 
@@ -335,11 +335,11 @@ public class AbilitiesScreenController : ScreenController
 
         if (_activeAbilities)
         {
-            Setup(InfoProvider.instance.GetSpellsBySchool(Enums.MagicSchools.fire));
+            Setup(DataProvider.instance.GetSpellsBySchool(Enums.MagicSchools.fire));
         }
         else
         {
-            Setup(InfoProvider.instance.GetPassivesBySchool(Enums.MagicSchools.fire));
+            Setup(DataProvider.instance.GetPassivesBySchool(Enums.MagicSchools.fire));
         }
     }
 
@@ -379,9 +379,10 @@ public class AbilitiesScreenController : ScreenController
 
     private void SubcribeButtons()
     {
-        _view.botButtons[0].Setup(OpenCamp);
-        _view.botButtons[1].Setup(OpenInventory); 
-        _view.botButtons[2].Setup(OpenAbilities);
+        _view.botButtons[0].Setup(() => Master.instance.ChangeGameStage(Enums.GameStage.camp));
+        _view.botButtons[1].Setup(() => Master.instance.ChangeGameStage(Enums.GameStage.inventory));
+        _view.botButtons[2].Setup(() => Master.instance.ChangeGameStage(Enums.GameStage.abilities));
+        _view.botButtons[3].Setup(() => Master.instance.ChangeGameStage(Enums.GameStage.heroStats));
 
 
         _view.abilityGroupsButtons[0].Setup(OpenClassAbilities);
@@ -391,20 +392,7 @@ public class AbilitiesScreenController : ScreenController
     }
 
 
-    private void OpenCamp()
-    {
-        Master.instance.ChangeGameStage(Enums.GameStage.camp);
-    }
-
-    private void OpenInventory()
-    {
-        Master.instance.ChangeGameStage(Enums.GameStage.inventory);
-    }
-
-    private void OpenAbilities()
-    {
-        Master.instance.ChangeGameStage(Enums.GameStage.abilities);
-    }
+     
 
     
 }

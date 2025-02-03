@@ -32,6 +32,10 @@ public class Master : MonoBehaviour
     private void Start()
     {
         //StartCoroutine(_addressablesDownloader.Load(_assetLabel));
+
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 120;
+
         _gameStarter.Initialize();
     }
 

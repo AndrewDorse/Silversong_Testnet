@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d22321c8fadeb545921a8b39817f3c5, type: 3}
   m_Name: B_Stun
   m_EditorClassIdentifier: 
-  Id: 0
+  Id: 2
   Icon: {fileID: 21300000, guid: 4b2ea39a4448c0442a969480f2c66c47, type: 3}
   Name: dsgdc
   Description: 
@@ -20,18 +20,14 @@ MonoBehaviour:
   MaxLevel: 1
   CharacterState: 0
   ControlState: 1
-  effectLoop:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  effectOnStart:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
+  effectLoop: {fileID: 109542, guid: 2ed06ab528b7c474eb9246421cd7c791, type: 3}
+  effectOnStart: {fileID: 121052, guid: 45b74d42e5559bf49a14a707b4842b51, type: 3}
   LevelData:
-  - Duration: 5
+  - Duration: 3
+    Amount: 0
+    MaxStack: 0
+    Stats: []
+  - Duration: 4
     Amount: 0
     MaxStack: 0
     Stats: []

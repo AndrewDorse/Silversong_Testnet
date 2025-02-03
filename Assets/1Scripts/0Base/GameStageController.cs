@@ -19,6 +19,8 @@ namespace Silversong.Base
             Action callback = info.Item1;
             bool needToChangeScene = info.Item2;
 
+            _currentStage = stage;
+
             if (needToChangeScene)
             {
                 int sceneNumber = GetSceneNumberByStage(stage);
@@ -30,13 +32,12 @@ namespace Silversong.Base
                 callback?.Invoke();
             }
 
-            _currentStage = stage;
+            
             EventsProvider.OnGameStateChange?.Invoke(_currentStage);
         }
 
         public void LaunchGameStage(string levelName)
-        {
-            
+        { 
 
             (Action, bool) info = SceneChangeCallbacks.GetCallback(_currentStage, Enums.GameStage.game);
 

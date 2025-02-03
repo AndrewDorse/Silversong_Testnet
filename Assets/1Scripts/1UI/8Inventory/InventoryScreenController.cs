@@ -33,7 +33,7 @@ public class InventoryScreenController : ScreenController
    
     private void OpenItemsByTier(int tier) // 1 - 4
     {
-        SetItems(InfoProvider.instance.GetItemsByTier(tier));
+        SetItems(DataProvider.instance.GetItemsByTier(tier));
     }
 
     private void SetItems(List<InventoryItem> items)
@@ -59,7 +59,7 @@ public class InventoryScreenController : ScreenController
             if (i < items.Count)
             {
                 _view.inventorySlots[i].gameObject.SetActive(true);
-                _view.inventorySlots[i].Setup(InfoProvider.instance.GetItem(items[i].Id), ItemInShopClick);
+                _view.inventorySlots[i].Setup(DataProvider.instance.GetItem(items[i].Id), ItemInShopClick);
             }
             else
             {
@@ -72,7 +72,7 @@ public class InventoryScreenController : ScreenController
     {
         ItemPopup itemPopup = Master.instance.GetPopup(Enums.PopupType.item) as ItemPopup;
 
-        InventoryItem item = InfoProvider.instance.GetItem(id);
+        InventoryItem item = DataProvider.instance.GetItem(id);
 
 
         (Enums.UniversalButtonType, Action) openInfo = GetItemOpenTypeInShop(item);
@@ -136,27 +136,11 @@ public class InventoryScreenController : ScreenController
 
     private void SubcribeTopButtons()
     {
-        _view.botButtons[0].Setup(OpenCamp);
-        _view.botButtons[1].Setup(OpenInventory);
-        _view.botButtons[2].Setup(OpenAbilities);
-    }
-
-
-    private void OpenCamp()
-    {
-        Master.instance.ChangeGameStage(Enums.GameStage.camp);
-    }
-
-    private void OpenInventory()
-    {
-        Master.instance.ChangeGameStage(Enums.GameStage.inventory);
-    }
-
-    private void OpenAbilities()
-    {
-        Master.instance.ChangeGameStage(Enums.GameStage.abilities);
-    }
-
+        _view.botButtons[0].Setup(() => Master.instance.ChangeGameStage(Enums.GameStage.camp));
+        _view.botButtons[1].Setup(() => Master.instance.ChangeGameStage(Enums.GameStage.inventory));
+        _view.botButtons[2].Setup(() => Master.instance.ChangeGameStage(Enums.GameStage.abilities));
+        _view.botButtons[3].Setup(()=> Master.instance.ChangeGameStage(Enums.GameStage.heroStats));
+    } 
 
 
 

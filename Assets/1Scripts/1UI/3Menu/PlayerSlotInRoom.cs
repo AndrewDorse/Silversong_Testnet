@@ -22,21 +22,21 @@ public class PlayerSlotInRoom : MonoBehaviour
 
         if (playerData.heroData.classId == -1)
         {
-            _classIcon.sprite = InfoProvider.instance.GetEmptySlotSprite();
+            _classIcon.sprite = DataProvider.instance.GetEmptySlotSprite();
         }
         else
         {
-            _classIcon.sprite = InfoProvider.instance.GetHeroClass(playerData.heroData.classId).icon;
+            _classIcon.sprite = DataProvider.HeroClassProviderData.GetHeroClass(playerData.heroData.classId).icon;
 
         }
 
         if (playerData.heroData.SubraceId == -1)
         {
-            _classIcon.sprite = InfoProvider.instance.GetEmptySlotSprite();
+            _classIcon.sprite = DataProvider.instance.GetEmptySlotSprite();
         }
         else
         {
-            _raceIcon.sprite = InfoProvider.instance.GetSubrace(playerData.heroData.SubraceId).icon;
+            _raceIcon.sprite = DataProvider.instance.GetSubrace(playerData.heroData.SubraceId).icon;
         }
 
 

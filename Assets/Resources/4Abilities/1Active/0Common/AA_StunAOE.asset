@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f14400aaefeb5546bb18ee65d769c4f, type: 3}
+  m_Name: AA_StunAOE
+  m_EditorClassIdentifier: 
+  Id: 2
+  Icon: {fileID: 21300000, guid: 482b4a0f62081b74597b0b713012a1e9, type: 3}
+  Name: Stun AOE
+  Description: 
+  MaxLevel: 2
+  MagicSchool: 1
+  Target: 1
+  ActionType: 0
+  CostType: 0
+  CastType: 0
+  AbilityConcreteType: 0
+  CastAnimation: 10
+  Buff: {fileID: 11400000, guid: 3e898e17b21e4bf49abc91a7d3e7a17d, type: 2}
+  EffectPrefabAddress:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  EffectTargetPrefabAddress:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  ProjectilePrefabAddress:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  LevelInfo:
+  - RequiredPoints: 1
+    Cooldown: 5
+    CastTime: 0
+    Cost: 15
+    BaseValue: 15
+    Radius: 3
+    FrontOffset: 0
+    StatSlots:
+    - stat: 4
+      value: 1
+  - RequiredPoints: 1
+    Cooldown: 5
+    CastTime: 0
+    Cost: 25
+    BaseValue: 30
+    Radius: 3
+    FrontOffset: 0
+    StatSlots:
+    - stat: 4
+      value: 1.5

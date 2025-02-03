@@ -2,6 +2,7 @@ using Silversong.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StoryChoiceScreenController : ScreenController
@@ -9,48 +10,43 @@ public class StoryChoiceScreenController : ScreenController
     private readonly StoryChoiceScreenView _view;
 
 
-    private Story _currentStory;
-
 
     public StoryChoiceScreenController(StoryChoiceScreenView view) : base(view)
     {
         _view = view;
         _view.OpenScreen();
-
-        _currentStory = StoryChoiceController.GetStory();
-
-        SetStory(_currentStory);
-
-
+         
+        SetStory(StoryChoiceController.CurrentStory);
+         
         EventsProvider.OnPlayersDataChanged += UpdatePlayersChoices;
         EventsProvider.OnAllPlayersMadeChoice += ShowAfterChoiceText;
 
-        _view.continueButton.onClick.AddListener(ContinueButton);
-
-    }
-
-
+        _view.continueButton.onClick.AddListener(ContinueButton); 
+    } 
 
     private void SetStory(Story story)
+    { 
+        SetStoryStep(story.StartingStep);
+    }
+
+    private void SetStoryStep(StoryStep storyStep)
     {
+        _view.storyImage.sprite = storyStep.Icon;
 
-        _view.storyImage.sprite = story.Icon;
-
-        _view.mainText.text = story.Text;
-
+        _view.mainText.text = storyStep.Text;
 
 
-        SetStoryOptions(story.Options, story.ShowRewards);
+        SetStoryOptions(storyStep.Options);
         ClearChoices();
     }
 
-    private void SetStoryOptions(StoryOption[] storyOptions, bool showRewards )
+    private void SetStoryOptions(StoryStepOption[] storyOptions)
     {
         for(int i = 0; i < _view.options.Length; i++)
         {
             if (i < storyOptions.Length)
             {
-                if (showRewards)
+                if (storyOptions[i].ShowRewards)
                 {
                     _view.options[i].Setup(storyOptions[i], RewardsClick, ChooseOptionClick, i);
                 }
@@ -63,13 +59,8 @@ public class StoryChoiceScreenController : ScreenController
             else
             {
                 _view.options[i].gameObject.SetActive(false);
-            }
-
-
-
-        }
-
-
+            } 
+        } 
     }
 
 
@@ -83,7 +74,7 @@ public class StoryChoiceScreenController : ScreenController
     {
         StoryRewardPopup popup = Master.instance.GetPopup(Enums.PopupType.StoryRewards) as StoryRewardPopup;
 
-        popup.Setup(_currentStory.Options[number]);
+        popup.Setup(StoryChoiceController.CurrentStoryStep.Options[number]);
     }
 
 
@@ -115,20 +106,28 @@ public class StoryChoiceScreenController : ScreenController
 
     private void ContinueButton()
     {
-        Master.instance.ChangeGameStage(Enums.GameStage.game);
+        Master.instance.ChangeGameStage(Enums.GameStage.game); 
+        EventsProvider.OnStoryEnd?.Invoke();
     }
 
 
     private void ShowAfterChoiceText(int optionId)
     {
-        _view.mainText.text = _currentStory.Options[optionId].ResultText;
-
-        foreach (ChoiceSlotUI slotUI in _view.options)
+        if (StoryChoiceController.CurrentStoryStep.Options[optionId].NextStoryStep == null)
         {
-            slotUI.gameObject.SetActive(false);
-        }
+            _view.mainText.text = StoryChoiceController.CurrentStoryStep.Options[optionId].ResultText;
 
-        _view.continueButton.gameObject.SetActive(true);
+            foreach (ChoiceSlotUI slotUI in _view.options)
+            {
+                slotUI.gameObject.SetActive(false);
+            }
+
+            _view.continueButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            SetStoryStep(StoryChoiceController.CurrentStoryStep.Options[optionId].NextStoryStep);
+        } 
     }
 
 
@@ -142,9 +141,6 @@ public class StoryChoiceScreenController : ScreenController
         base.Dispose();
 
         EventsProvider.OnPlayersDataChanged -= UpdatePlayersChoices;
-        EventsProvider.OnAllPlayersMadeChoice -= ShowAfterChoiceText;
-
-    }
-
-
+        EventsProvider.OnAllPlayersMadeChoice -= ShowAfterChoiceText; 
+    } 
 }

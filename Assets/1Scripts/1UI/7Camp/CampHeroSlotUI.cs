@@ -21,7 +21,7 @@ public class CampHeroSlotUI : MonoBehaviour
 
     public void Setup(PlayerData data, Action callback)
     {
-        _classIcon.sprite = InfoProvider.instance.GetHeroClass(data.heroData.classId).icon;
+        _classIcon.sprite = DataProvider.HeroClassProviderData.GetHeroClass(data.heroData.classId).icon;
         _nicknameText.text = data.nickname;
 
         _readyMark.SetActive(data.ready);
@@ -39,7 +39,7 @@ public class CampHeroSlotUI : MonoBehaviour
             if (i < items.Count)
             {
                 _itemIcons[i].gameObject.SetActive(true);
-                _itemIcons[i].Setup(InfoProvider.instance.GetItem(items[i].Id));
+                _itemIcons[i].Setup(DataProvider.instance.GetItem(items[i].Id));
             }
             else
             {

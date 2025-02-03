@@ -15,6 +15,17 @@ MonoBehaviour:
   id: 2
   className: Magician
   attribute: 0
+  startStats:
+  - stat: 0
+    value: 100
+  - stat: 4
+    value: 4
+  - stat: 6
+    value: 8
+  - stat: 8
+    value: 11
+  - stat: 40
+    value: 1
   icon: {fileID: 21300000, guid: e7587b779c10b324ba4e246daf08599e, type: 3}
   portrait: {fileID: 21300000, guid: 191c3916d1966ea4291d900456b638b2, type: 3}
   animatorController: {fileID: 9100000, guid: 17aa96c007b07c54e93e56e5bd5e3e09, type: 2}
@@ -40,3 +51,5 @@ MonoBehaviour:
     leftHand: {fileID: 0}
     shield: {fileID: 0}
     helmetType: 0
+  ActiveAbilities: []
+  PassiveAbilities: []

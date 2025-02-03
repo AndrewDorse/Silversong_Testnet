@@ -15,7 +15,7 @@ public static class SceneChangeCallbacks
             callback = LoadedLoginCallback;
             needToChangeScene = true;
         }
-        else if(currentStage == Enums.GameStage.login && nextStage == Enums.GameStage.menu)
+        else if (currentStage == Enums.GameStage.login && nextStage == Enums.GameStage.menu)
         {
             callback = LoadedMenuCallback;
             needToChangeScene = false;
@@ -67,72 +67,78 @@ public static class SceneChangeCallbacks
         }
 
 
-        // inside camp
-        else if (currentStage == Enums.GameStage.camp && nextStage == Enums.GameStage.inventory) // inventory / shop
-        {
-            callback = InventoryCallback;
-            needToChangeScene = false;
-        }
-        else if (currentStage == Enums.GameStage.camp && nextStage == Enums.GameStage.abilities) // abilities
-        {
-            callback = AbilitiesCallback;
-            needToChangeScene = false;
-        }
 
 
 
-        else if (currentStage == Enums.GameStage.inventory && nextStage == Enums.GameStage.camp) // camp
-        {
-            callback = CampCallback;
-            needToChangeScene = false;
-        }
-        else if (currentStage == Enums.GameStage.inventory && nextStage == Enums.GameStage.abilities) // abilities
-        {
-            callback = AbilitiesCallback;
-            needToChangeScene = false;
-        }
 
-        else if (currentStage == Enums.GameStage.abilities && nextStage == Enums.GameStage.camp) // camp
-        {
-            callback = CampCallback;
-            needToChangeScene = false;
-        }
-        else if (currentStage == Enums.GameStage.abilities && nextStage == Enums.GameStage.inventory) // abilities
-        {
-            callback = InventoryCallback;
-            needToChangeScene = false;
-        }
 
-        // new level
 
-        else if (currentStage == Enums.GameStage.camp ||
+
+
+        // in camp
+        else if (DataController.LocalGlobalStage == Enums.ServerGameStage.camp)
+        {
+            if (currentStage == Enums.GameStage.camp ||
             currentStage == Enums.GameStage.inventory ||
             currentStage == Enums.GameStage.abilities ||
-            currentStage == Enums.GameStage.campHeroInfo
-            ) 
-        {
-            if (nextStage == Enums.GameStage.game)
+            currentStage == Enums.GameStage.heroStats)
             {
-                callback = LevelLoadedCallback;
-                needToChangeScene = true;
+                if (nextStage == Enums.GameStage.game)
+                {
+                    callback = LevelLoadedCallback;
+                    needToChangeScene = true;
+                }
+                else if (nextStage == Enums.GameStage.camp)
+                {
+                    callback = CampCallback;
+                    needToChangeScene = false;
+                }
+                else if (nextStage == Enums.GameStage.inventory)
+                {
+                    callback = InventoryCallback;
+                    needToChangeScene = false;
+                }
+                else if (nextStage == Enums.GameStage.abilities)
+                {
+                    callback = AbilitiesCallback;
+                    needToChangeScene = false;
+                }
+                else if (nextStage == Enums.GameStage.heroStats)
+                {
+                    callback = HeroStatsCallback;
+                    needToChangeScene = false;
+                }
+            }
+        } 
+        else if (DataController.LocalGlobalStage == Enums.ServerGameStage.gameLevel)
+        {
+            // story choice & playmode
+            if (currentStage == Enums.GameStage.game && nextStage == Enums.GameStage.StoryChoice)
+            {
+                callback = StoryChoiceCallback;
+                needToChangeScene = false;
+            }
+            else if (currentStage == Enums.GameStage.StoryChoice && nextStage == Enums.GameStage.game)
+            {
+                callback = FromStoryChoiceCallback;
+                needToChangeScene = false;
+            }
+            else if (currentStage == Enums.GameStage.game && nextStage == Enums.GameStage.heroStats) // heroStats
+            {
+                callback = HeroStatsCallback;
+                needToChangeScene = false;
+            }
+            else if (currentStage == Enums.GameStage.heroStats && nextStage == Enums.GameStage.game) // back to game
+            {
+                callback = PlaymodeCallback;
+                needToChangeScene = false;
+            }
+            else if (currentStage == Enums.GameStage.heroStats && nextStage == Enums.GameStage.statistics) // back to game
+            {
+                callback = StatisticsCallback;
+                needToChangeScene = false;
             }
         }
-
-
-        // story choice
-        else if (currentStage == Enums.GameStage.game && nextStage == Enums.GameStage.StoryChoice)  
-        {
-            callback = StoryChoiceCallback;
-            needToChangeScene = false;
-        }
-        else if (currentStage == Enums.GameStage.StoryChoice && nextStage == Enums.GameStage.game)
-        {
-            callback = FromStoryChoiceCallback;
-            needToChangeScene = false;
-        }
-
-
-
 
         return (callback, needToChangeScene);
     }
@@ -181,12 +187,19 @@ public static class SceneChangeCallbacks
 
         Master.instance.RemoveLoadingScreen();
 
-        Debug.Log("# LevelLoadedCallback " );
+        Debug.Log("# LevelLoadedCallback ");
 
+        DataController.LocalGlobalStage = Enums.ServerGameStage.gameLevel;
         EventsProvider.OnLevelStart?.Invoke();
+        
     }
 
-    private static void StatisticsCallback()
+    private static void PlaymodeCallback()
+    {
+        Master.instance.OpenScreen(Enums.GameStage.game);
+    }
+
+        private static void StatisticsCallback()
     {
         Master.instance.OpenScreen(Enums.GameStage.statistics);
     }
@@ -199,6 +212,7 @@ public static class SceneChangeCallbacks
     private static void CampCallback()
     {
         Master.instance.OpenScreen(Enums.GameStage.camp);
+        DataController.LocalGlobalStage = Enums.ServerGameStage.camp;
     }
 
     private static void InventoryCallback()
@@ -209,7 +223,10 @@ public static class SceneChangeCallbacks
     {
         Master.instance.OpenScreen(Enums.GameStage.abilities);
     }
-
+    private static void HeroStatsCallback()
+    {
+        Master.instance.OpenScreen(Enums.GameStage.heroStats);
+    }
 
 
     private static void StoryChoiceCallback()

@@ -27,7 +27,7 @@ public class LocalHeroAbilityCaster
         ActiveAbilityDataSlot abilityDataSlot = DataController.LocalPlayerData.heroData.activeTalents[buttonId];
 
 
-        _abilityToCast = new ActiveAbilitySlot(InfoProvider.instance.GetAbility(abilityDataSlot.Id), abilityDataSlot.Level);
+        _abilityToCast = new ActiveAbilitySlot(DataProvider.instance.GetAbility(abilityDataSlot.Id), abilityDataSlot.Level);
 
 
         ApplyAbilityCost(_abilityToCast);

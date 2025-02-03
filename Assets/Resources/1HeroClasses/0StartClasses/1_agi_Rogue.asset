@@ -15,6 +15,17 @@ MonoBehaviour:
   id: 1
   className: Rogue
   attribute: 0
+  startStats:
+  - stat: 0
+    value: 10
+  - stat: 4
+    value: 7
+  - stat: 6
+    value: 12
+  - stat: 8
+    value: 6
+  - stat: 40
+    value: 2
   icon: {fileID: 21300000, guid: b25bbba1f771b1744a2db9efe689c6c6, type: 3}
   portrait: {fileID: 21300000, guid: cef130656e5f29c48bda24645b68c33f, type: 3}
   animatorController: {fileID: 22100000, guid: 125a6c55d1711814fb0bcc064455acac, type: 2}
@@ -42,3 +53,5 @@ MonoBehaviour:
       type: 3}
     shield: {fileID: 0}
     helmetType: 0
+  ActiveAbilities: []
+  PassiveAbilities: []

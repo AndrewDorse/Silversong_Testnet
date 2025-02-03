@@ -56,7 +56,7 @@ public class StatsHolder
         stats[(int)Enums.Stats.coeffAllMovementSpeed + 100] = 1;
         stats[(int)Enums.Stats.coeffAllSpellSpeed + 100] = 1;
 
-        stats[(int)Enums.Stats.meleeAttack + 100] = 25;
+        stats[(int)Enums.Stats.meleeAttack + 100] = 10;
         stats[(int)Enums.Stats.meleeAttackPc + 100] = 1;
         stats[(int)Enums.Stats.rangeAttack + 100] = 5;
         stats[(int)Enums.Stats.rangeAttackPc + 100] = 1;

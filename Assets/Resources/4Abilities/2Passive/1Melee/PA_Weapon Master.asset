@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a92e62618fd7e4948a786360617a72a8, type: 3}
   m_Name: PA_Weapon Master
   m_EditorClassIdentifier: 
-  Id: 0
+  Id: 1
   Icon: {fileID: 21300000, guid: 39140730fb5071140a7afa80d23b8d19, type: 3}
-  Name: 
+  Name: Weapon Master
   Description: 
   MaxLevel: 1
   Type: 1

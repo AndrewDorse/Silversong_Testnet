@@ -24,12 +24,12 @@ namespace Silversong.Data.Providers
 
             if(rewardType == Enums.RewardType.Item)
             {
-                return InfoProvider.instance.GetItem(value).Icon;
+                return DataProvider.instance.GetItem(value).Icon;
             }
 
             else if (rewardType == Enums.RewardType.Passive )
             {
-                return InfoProvider.instance.GetPassive(value).Icon;
+                return DataProvider.instance.GetPassive(value).Icon;
             }
 
             return null;

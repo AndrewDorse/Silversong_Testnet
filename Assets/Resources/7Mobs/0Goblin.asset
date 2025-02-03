@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Name: 
-  Prefab: {fileID: 8218039798876714590, guid: 91b5d5ead6cb5f045bb0139cedb0e524, type: 3}
+  Description: 
+  Tags: 
+  Agressive: 1
+  Prefab: {fileID: 6222254349073390596, guid: 61d2111d92a80704580c622d0858fa2a, type: 3}
   Stats:
   - stat: 0
-    value: 1441
+    value: 422.9

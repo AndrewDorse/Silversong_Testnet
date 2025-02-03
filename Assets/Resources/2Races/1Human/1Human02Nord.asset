@@ -16,9 +16,8 @@ MonoBehaviour:
   subraceName: 
   subraceSecondName: 
   description: 
-  faceMesh: {fileID: 0}
-  hairMesh: {fileID: 0}
-  halfHairMesh: {fileID: 0}
   icon: {fileID: 21300000, guid: bd4544c921e32b14d8fff5f785e277af, type: 3}
-  scale: {x: 0, y: 0, z: 0}
-  stepOffset: 0
+  scale: {x: 0.88, y: 1, z: 0.9}
+  stepOffset: -0.04
+  meshHead: {fileID: 4023514734073287106, guid: ebc36d6025c56c9409ed51563b252363,
+    type: 3}

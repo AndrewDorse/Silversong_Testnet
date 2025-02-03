@@ -15,6 +15,7 @@ public class InRoomScreenController : ScreenController
         _view.heroCreateButton.onClick.AddListener(StartHeroCreation);
         _view.leaveRoomButton.onClick.AddListener(LeaveRoom);
         _view.readyButton.onClick.AddListener(Ready);
+        _view.addBotButton.onClick.AddListener(AddBot);
 
         EventsProvider.OnPlayersDataChanged += UpdatePlayerList; 
         DataController.instance.AskToUpdatePlayersData();
@@ -35,12 +36,15 @@ public class InRoomScreenController : ScreenController
         MainRPCController.instance.SetLocalPlayerReady();
     }
 
+    private void AddBot()
+    {
+        DataController.instance.TryAddBot();
+    }
+
     private void UpdatePlayerList(List<PlayerData> info)
     {
         Debug.Log("#IN ROOM# UpdatePlayerList " + info.Count) ;
-
-       
-
+          
         for (int i = 0; i < _view.playerSlotsInRoom.Length; i++)
         {
             if (i < info.Count)
